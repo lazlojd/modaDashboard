@@ -21,6 +21,9 @@ import {
   Progress,
   Row,
   Table,
+  Pagination,
+  PaginationItem,
+  PaginationLink
 } from 'reactstrap';
 import Widget03 from '../../views/Widgets/Widget03'
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -31,30 +34,53 @@ const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
-
+const cardsPerPage = 30
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-    this.render = this.render.bind(this)
+    this.handleClick = this.handleClick.bind(this)
 
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
       flickrURL: ['https://farm', '.staticflickr.com/', '.jpg'],
       response: [],
-      photos: {},
+      activePage: 1,
+      activePageList: [],
       post: '',
       responseToPost: '',
     };
   }
 
+  handleClick(index) {
+      // check if active page has been selected
+      console.log(this.state.activePage)
+      if (this.state.activePage == index)
+          return;
+
+      //check if index is within range of acceptable pages
+      if(index > Math.ceil(this.state.response.length / 30) || index < 1)
+          return;
+
+      // calculate offset
+      var offset = cardsPerPage * (index - 1);
+      // console.log(offset)
+      // console.log("starting slciing at " + this.state.response[offset])
+      // console.log(this.state.response.slice(offset, offset + cardsPerPage))
+      this.setState({
+          activePageList: this.state.response.slice(offset, offset + cardsPerPage),
+          activePage: index})
+
+  }
+
   componentDidMount() {
         this.callApi()
-            .then(res => {this.setState({ response: res.rows});
-                console.log(this.state.response);})
+            .then(res => {this.setState({ response: res.rows, activePageList: res.rows.slice(0, cardsPerPage)});
+                //console.log(this.state.response);
+            })
             .catch(err => console.log(err));
     }
 
@@ -104,8 +130,27 @@ class Dashboard extends Component {
   //       "isfriend":1,"isfamily":1}]},"stat":"ok"}
 
   render() {
+    var pages = (() => {
+        var numPages = Math.ceil(this.state.response.length / 30);
+        var pages = []
+        for (let i = 0; i < numPages; i++) {
+            //console.log("page " + (i + 1) + " link")
+            if (i + 1 == this.state.activePage) {
+                pages.push(
+                    <PaginationItem active>
+                    <PaginationLink tag="button" onClick={() => this.handleClick(i + 1)}>{i + 1}</PaginationLink>
+                </PaginationItem>)
+            } else {
+                pages.push(<PaginationItem>
+                    <PaginationLink tag="button" onClick={() => this.handleClick(i + 1)}>{i + 1}</PaginationLink>
+                </PaginationItem>)
+            }
+        }
+        //console.log(pages)
+        return pages
+    })
 
-    var photoItems = this.state.response.map(function(row) {
+    var photoItems = this.state.activePageList.map(function(row) {
         return (<Col xs="12" sm="6" md="6" >
             <Card className="border-info">
                 <CardHeader>
@@ -157,192 +202,24 @@ class Dashboard extends Component {
             </Card>
         </Col>)
     })
-
     return (
       <div className="animated fadeIn">
         <Row>
             {photoItems}
-          {/*<Col xs="12" sm="6" md="6" >*/}
-            {/*<Card className="border-info">*/}
-              {/*<CardHeader>*/}
-                {/*Card outline info*/}
-              {/*</CardHeader>*/}
-              {/*<CardBody>*/}
-                {/*<Row>*/}
-                  {/*<Col>*/}
-                    {/*<CardImg top width="100%" height="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />*/}
-                  {/*</Col>*/}
-                  {/*<Col>*/}
-                    {/*Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut*/}
-                    {/*laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation*/}
-                    {/*ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.*/}
-                  {/*</Col>*/}
-                {/*</Row>*/}
-              {/*</CardBody>*/}
-            {/*</Card>*/}
-          {/*</Col>*/}
-            {/*<Col xs="12" sm="6" md="6" >*/}
-                {/*<Card className="border-info">*/}
-                    {/*<CardHeader>*/}
-                        {/*Card outline info*/}
-                    {/*</CardHeader>*/}
-                    {/*<CardBody>*/}
-                        {/*<Row>*/}
-                            {/*<Col>*/}
-                                {/*<CardImg top width="100%" height="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />*/}
-                            {/*</Col>*/}
-                            {/*<Col>*/}
-                                {/*Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut*/}
-                                {/*laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation*/}
-                                {/*ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.*/}
-                            {/*</Col>*/}
-                        {/*</Row>*/}
-                    {/*</CardBody>*/}
-                {/*</Card>*/}
-            {/*</Col>*/}
-          {/*<Col xs="12" sm="6" md="4">*/}
-            {/*<Card className="border-info">*/}
-              {/*<CardHeader>*/}
-                {/*Card outline info*/}
-              {/*</CardHeader>*/}
-              {/*<CardBody>*/}
-                {/*<Row>*/}
-                  {/*<Col>*/}
-                    {/*<CardImg top width="100%" height="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />*/}
-                  {/*</Col>*/}
-                  {/*<Col>*/}
-                    {/*Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut*/}
-                    {/*laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation*/}
-                    {/*ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.*/}
-                  {/*</Col>*/}
-                {/*</Row>*/}
-              {/*</CardBody>*/}
-            {/*</Card>*/}
-          {/*</Col>*/}
-          {/*<Col xs="12" sm="6" md="4">*/}
-            {/*<Card className="border-info">*/}
-              {/*<CardHeader>*/}
-                {/*Card outline info*/}
-              {/*</CardHeader>*/}
-              {/*<CardBody>*/}
-                {/*<Row>*/}
-                  {/*<Col>*/}
-                    {/*<CardImg top width="100%" height="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />*/}
-                  {/*</Col>*/}
-                  {/*<Col>*/}
-                    {/*Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut*/}
-                    {/*laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation*/}
-                    {/*ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.*/}
-                  {/*</Col>*/}
-                {/*</Row>*/}
-              {/*</CardBody>*/}
-            {/*</Card>*/}
-          {/*</Col>*/}
-          {/*<Col xs="12" sm="6" md="4">*/}
-            {/*<Card className="border-info">*/}
-              {/*<CardHeader>*/}
-                {/*Card outline info*/}
-              {/*</CardHeader>*/}
-              {/*<CardBody>*/}
-                {/*<Row>*/}
-                  {/*<Col>*/}
-                    {/*<CardImg top width="100%" height="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />*/}
-                  {/*</Col>*/}
-                  {/*<Col>*/}
-                    {/*Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut*/}
-                    {/*laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation*/}
-                    {/*ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.*/}
-                  {/*</Col>*/}
-                {/*</Row>*/}
-              {/*</CardBody>*/}
-            {/*</Card>*/}
-          {/*</Col>*/}
-          {/*<Col xs="12" sm="6" md="4">*/}
-            {/*<Card className="border-info">*/}
-              {/*<CardHeader>*/}
-                {/*Card outline info*/}
-              {/*</CardHeader>*/}
-              {/*<CardBody>*/}
-                {/*<Row>*/}
-                  {/*<Col>*/}
-                    {/*<CardImg top width="100%" height="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />*/}
-                  {/*</Col>*/}
-                  {/*<Col>*/}
-                    {/*Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut*/}
-                    {/*laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation*/}
-                    {/*ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.*/}
-                  {/*</Col>*/}
-                {/*</Row>*/}
-              {/*</CardBody>*/}
-            {/*</Card>*/}
-          {/*</Col>*/}
+
         </Row>
 
 
 
-
-
-
-        {/*<Row>*/}
-          {/*<Col>*/}
-            {/*<Card>*/}
-              {/*<CardBody>*/}
-                {/*<Row>*/}
-                  {/*<Col sm="5">*/}
-                    {/*<CardTitle className="mb-0">Traffic</CardTitle>*/}
-                    {/*<div className="small text-muted">November 2015</div>*/}
-                  {/*</Col>*/}
-                  {/*<Col sm="7" className="d-none d-sm-inline-block">*/}
-                    {/*<Button color="primary" className="float-right"><i className="icon-cloud-download"></i></Button>*/}
-                    {/*<ButtonToolbar className="float-right" aria-label="Toolbar with button groups">*/}
-                      {/*<ButtonGroup className="mr-3" aria-label="First group">*/}
-                        {/*<Button color="outline-secondary" onClick={() => this.onRadioBtnClick(1)} active={this.state.radioSelected === 1}>Day</Button>*/}
-                        {/*<Button color="outline-secondary" onClick={() => this.onRadioBtnClick(2)} active={this.state.radioSelected === 2}>Month</Button>*/}
-                        {/*<Button color="outline-secondary" onClick={() => this.onRadioBtnClick(3)} active={this.state.radioSelected === 3}>Year</Button>*/}
-                      {/*</ButtonGroup>*/}
-                    {/*</ButtonToolbar>*/}
-                  {/*</Col>*/}
-                {/*</Row>*/}
-                {/*<div className="chart-wrapper" style={{ height: 300 + 'px', marginTop: 40 + 'px' }}>*/}
-                  {/*<Line data={mainChart} options={mainChartOpts} height={300} />*/}
-                {/*</div>*/}
-              {/*</CardBody>*/}
-              {/*<CardFooter>*/}
-                {/*<Row className="text-center">*/}
-                  {/*<Col sm={12} md className="mb-sm-2 mb-0">*/}
-                    {/*<div className="text-muted">Visits</div>*/}
-                    {/*<strong>29.703 Users (40%)</strong>*/}
-                    {/*<Progress className="progress-xs mt-2" color="success" value="40" />*/}
-                  {/*</Col>*/}
-                  {/*<Col sm={12} md className="mb-sm-2 mb-0 d-md-down-none">*/}
-                    {/*<div className="text-muted">Unique</div>*/}
-                    {/*<strong>24.093 Users (20%)</strong>*/}
-                    {/*<Progress className="progress-xs mt-2" color="info" value="20" />*/}
-                  {/*</Col>*/}
-                  {/*<Col sm={12} md className="mb-sm-2 mb-0">*/}
-                    {/*<div className="text-muted">Pageviews</div>*/}
-                    {/*<strong>78.706 Views (60%)</strong>*/}
-                    {/*<Progress className="progress-xs mt-2" color="warning" value="60" />*/}
-                  {/*</Col>*/}
-                  {/*<Col sm={12} md className="mb-sm-2 mb-0">*/}
-                    {/*<div className="text-muted">New Users</div>*/}
-                    {/*<strong>22.123 Users (80%)</strong>*/}
-                    {/*<Progress className="progress-xs mt-2" color="danger" value="80" />*/}
-                  {/*</Col>*/}
-                  {/*/!*<Col sm={12} md className="mb-sm-2 mb-0 d-md-down-none">*!/*/}
-                    {/*/!*<div className="text-muted">Bounce Rate</div>*!/*/}
-                    {/*/!*<strong>Average Rate (40.15%)</strong>*!/*/}
-                    {/*/!*<Progress className="progress-xs mt-2" color="primary" value="40" />*!/*/}
-                  {/*/!*</Col>*!/*/}
-                {/*</Row>*/}
-              {/*</CardFooter>*/}
-            {/*</Card>*/}
-          {/*</Col>*/}
-        {/*</Row>*/}
-
-
-
-
+          <Pagination>
+              <PaginationItem>
+                  <PaginationLink previous tag="button" onClick={() => this.handleClick(this.state.activePage - 1)}></PaginationLink>
+              </PaginationItem>
+                {pages()}
+              <PaginationItem>
+                  <PaginationLink next tag="button" onClick={() => this.handleClick(this.state.activePage + 1)}></PaginationLink>
+              </PaginationItem>
+          </Pagination>
       </div>
     );
   }
