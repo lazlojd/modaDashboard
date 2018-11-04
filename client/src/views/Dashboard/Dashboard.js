@@ -130,6 +130,11 @@ class Dashboard extends Component {
   //       "isfriend":1,"isfamily":1}]},"stat":"ok"}
 
   render() {
+
+    /*
+    Limit the number of items on a page to 30 because flickr api usage
+    request no more than 30 photos per page for bandwidth reasons
+     */
     var pages = (() => {
         var numPages = Math.ceil(this.state.response.length / 30);
         var pages = []
@@ -208,8 +213,6 @@ class Dashboard extends Component {
             {photoItems}
 
         </Row>
-
-
 
           <Pagination>
               <PaginationItem>

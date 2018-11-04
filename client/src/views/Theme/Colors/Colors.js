@@ -1,49 +1,69 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import { Row, Col } from 'reactstrap'
+import { Row,
+    Col,
+    PaginationItem,
+    PaginationLink,
+    Pagination,
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Button,
+    Table,
+    Badge,
+    Input,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupText,
+    Form} from 'reactstrap'
 import { rgbToHex } from '@coreui/coreui/dist/js/coreui-utilities'
 
-class ThemeView extends Component {
+
+class Colors extends Component {
   constructor(props) {
     super(props);
 
+    this.addCol = this.addCol.bind(this)
+    this.addRow = this.addRow.bind(this)
+    this.handleInput = this.handleInput.bind(this)
+    // model choice array will represent the choices as such
+    // [1st Model choices, 2nd model choices, 3rd model choices, ..]
+    // Designers choose multiple models in the case that they do not
+    // get their first choice
     this.state = {
-      bgColor: 'rgb(255, 255, 255)'
-    }
+        additionalColumns: 0,
+        additionalRows: 0,
+        modelChoices: [[], [], []]
+    };
   }
 
-  componentDidMount () {
-    const elem = ReactDOM.findDOMNode(this).parentNode.firstChild
-    const color = window.getComputedStyle(elem).getPropertyValue('background-color')
+  handleInput(event, modelChoice, selectionNumber) {
+    console.log("handleinput: " + modelChoice + " , " + selectionNumber)
+    var list = this.state.modelChoices
+    list[modelChoice][selectionNumber] = event.target.value
     this.setState({
-      bgColor: color || this.state.bgColor
+        modelChoices: list
     })
+      console.log(list)
   }
 
-  render() {
-
-    return (
-      <table className="w-100">
-        <tbody>
-        <tr>
-          <td className="text-muted">HEX:</td>
-          <td className="font-weight-bold">{ rgbToHex(this.state.bgColor) }</td>
-        </tr>
-        <tr>
-          <td className="text-muted">RGB:</td>
-          <td className="font-weight-bold">{ this.state.bgColor }</td>
-        </tr>
-        </tbody>
-      </table>
-    )
+  addCol() {
+    //console.log("entered?")
+    var list = this.state.modelChoices
+    list.push([])
+    this.setState(
+        {additionalColumns: this.state.additionalColumns + 1,
+          modelChoices: list});
+    //console.log("done? " + this.state.modelChoices[0])
   }
-}
 
-class ThemeColor extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  addRow() {
+      this.setState(
+          {additionalRows: this.state.additionalRows + 1});
+  }
+
   render() {
 
     // const { className, children, ...attributes } = this.props
@@ -51,134 +71,139 @@ class ThemeColor extends Component {
 
     const classes = classNames(className, 'theme-color w-75 rounded mb-3')
 
+    var moreRows = (() => {
+      var rows = []
+      for (let i = 0; i < this.state.additionalRows; i++) {
+        rows.push(
+            <tr>
+              <td>Selection {4 + i}</td>
+              <td><Input type="number" id="name" placeholder="Model Number"
+                         value={this.state.modelChoices[0][3 + i]}
+                         onChange={(event) => this.handleInput(event, 0, 3 + i)}/></td>
+              <td><Input type="number" id="name" placeholder="Model Number"
+                         value={this.state.modelChoices[1][3 + i]}
+                         onChange={(event) => this.handleInput(event, 1, 3 + i)}/></td>
+              <td><Input type="number" id="name" placeholder="Model Number"
+                         value={this.state.modelChoices[2][3 + i]}
+                         onChange={(event) => this.handleInput(event, 2, 3 + i)}/></td>
+              {moreColumns(i + 3)}
+            </tr>
+        )
+      }
+      return rows
+    })
+
+
+    var moreColumns = ((selectionNo) => {
+      var columns = []
+     
+      //console.log(this.state.additionalColumns)
+      for (let i = 0; i < this.state.additionalColumns; i++) {
+        console.log("input params " + (i + 3) + " , " + i)
+          columns.push(
+            <td><Input type="number" id="name" placeholder="Model Number"
+                                     value={this.state.modelChoices[i + 3][selectionNo]}
+                                     onChange={(event) => this.handleInput(event, i + 3, selectionNo)}
+            /></td>
+        )
+      }
+      //console.log(i)
+      return columns
+    })
+
+    var moreColHeaders = (() => {
+        var headers = []
+        for (let i = 0; i < this.state.additionalColumns; i++) {
+            headers.push(
+                <th>Model {4 + i}</th>
+            )
+        }
+        return headers
+    })
     return (
-      <Col xl="2" md="4" sm="6" xs="12" className="mb-4">
-        <div className={classes} style={{paddingTop: '75%'}}></div>
-        {children}
-        <ThemeView/>
-      </Col>
+        <Row>
+        <Form onSubmit={this.handleFormSubmit}>
+        <Col xs="12" lg="6">
+            <Card>
+                <CardHeader>
+                    <i className="fa fa-align-justify"></i> Your Model Choices
+                </CardHeader>
+                <CardBody>
+                    <Table responsive>
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Model 1</th>
+                            <th>Model 2</th>
+                            <th>Model 3</th>
+                            {moreColHeaders()}
+                            <th><i className="icon-plus icons font-2xl d-block" onClick={() => this.addCol()}></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Selection 1</td>
+                            <td><Input type="number" id="name" placeholder="Model Number"
+                                       required value={this.state.modelChoices[0][0]}
+                                       onChange={(event) => this.handleInput(event, 0, 0)}/></td>
+                            <td><Input type="number" id="name" placeholder="Model Number"
+                                       required value={this.state.modelChoices[1][0]}
+                                       onChange={(event) => this.handleInput(event, 1, 0)}/></td>
+                            <td><Input type="number" id="name" placeholder="Model Number"
+                                       required value={this.state.modelChoices[2][0]}
+                                       onChange={(event) => this.handleInput(event, 2, 0)}/></td>
+                            {moreColumns(0)}
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Selection 2</td>
+                            <td><Input type="number" id="name" placeholder="Model Number"
+                                       required value={this.state.modelChoices[0][1]}
+                                       onChange={(event) => this.handleInput(event, 0, 1)}/></td>
+                            <td><Input type="number" id="name" placeholder="Model Number"
+                                       required value={this.state.modelChoices[1][1]}
+                                       onChange={(event) => this.handleInput(event, 1, 1)}/></td>
+                            <td><Input type="number" id="name" placeholder="Model Number"
+                                       requiredvalue={this.state.modelChoices[2][1]}
+                                       onChange={(event) => this.handleInput(event, 2, 1)}/></td>
+                            {moreColumns(1)}
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Selection 3</td>
+                            <td><Input type="number" id="name" placeholder="Model Number"
+                                       required value={this.state.modelChoices[0][2]}
+                                       onChange={(event) => this.handleInput(event, 0, 2)}/></td>
+                            <td><Input type="number" id="name" placeholder="Model Number"
+                                       required value={this.state.modelChoices[1][2]}
+                                       onChange={(event) => this.handleInput(event, 1, 2)}/></td>
+                            <td><Input type="number" id="name" placeholder="Model Number"
+                                       required value={this.state.modelChoices[2][2]}
+                                       onChange={(event) => this.handleInput(event, 2, 2)}/></td>
+                            {moreColumns(2)}
+                            <td></td>
+                        </tr>
+                        {moreRows()}
+                        <tr>
+                            <td><i className="icon-plus icons font-2xl d-block" onClick={() => this.addRow()}></i></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </Table>
+                </CardBody>
+                <CardFooter>
+                    <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                </CardFooter>
+            </Card>
+        </Col>
+        </Form>
+      </Row>
     )
   }
 }
 
-class Colors extends Component {
-  render() {
-    return (
-      <div className="animated fadeIn">
-        <div className="card">
-          <div className="card-header">
-            <i className="icon-drop"></i> Theme colors
-          </div>
-          <div className="card-body">
-            <Row>
-              <ThemeColor className="bg-primary">
-                <h6>Brand Primary Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-secondary">
-                <h6>Brand Secondary Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-success">
-                <h6>Brand Success Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-danger">
-                <h6>Brand Danger Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-warning">
-                <h6>Brand Warning Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-info">
-                <h6>Brand Info Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-light">
-                <h6>Brand Light Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-dark">
-                <h6>Brand Dark Color</h6>
-              </ThemeColor>
-            </Row>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-header">
-            <i className="icon-drop"></i> Grays
-          </div>
-          <div className="card-body">
-            <Row className="mb-3">
-              <ThemeColor className="bg-gray-100">
-                <h6>Gray 100 Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-gray-200">
-                <h6>Gray 200 Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-gray-300">
-                <h6>Gray 300 Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-gray-400">
-                <h6>Gray 400 Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-gray-500">
-                <h6>Gray 500 Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-gray-600">
-                <h6>Gray 600 Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-gray-700">
-                <h6>Gray 700 Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-gray-800">
-                <h6>Gray 800 Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-gray-900">
-                <h6>Gray 900 Color</h6>
-              </ThemeColor>
-            </Row>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-header">
-            <i className="icon-drop"></i> Additional colors
-          </div>
-          <div className="card-body">
-            <Row>
-              <ThemeColor className="bg-blue">
-                <h6>Blue Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-light-blue">
-                <h6>Light Blue Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-indigo">
-                <h6>Indigo Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-purple">
-                <h6>Purple Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-pink">
-                <h6>Pink Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-red">
-                <h6>Red Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-orange">
-                <h6>Orange Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-yellow">
-                <h6>Yellow Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-green">
-                <h6>Green Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-teal">
-                <h6>Teal Color</h6>
-              </ThemeColor>
-              <ThemeColor className="bg-cyan">
-                <h6>Cyan Color</h6>
-              </ThemeColor>
-            </Row>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
 
 export default Colors;
