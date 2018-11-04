@@ -7,8 +7,7 @@ class Tables extends Component {
       <div className="animated fadeIn">
         <Row>
 
-
-          <Col xs="12" lg="6">
+          <Col>
             <Card>
               <CardHeader>
                 <i className="fa fa-align-justify"></i> Striped Table

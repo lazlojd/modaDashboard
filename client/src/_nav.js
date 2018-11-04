@@ -18,18 +18,13 @@ export default {
       class: ''             // optional class names space delimited list for title item ex: "text-center"
     },
     {
-      name: 'Colors',
+      name: 'Model Choices',
       url: '/theme/colors',
-      icon: 'icon-drop',
-    },
-    {
-      name: 'Typography',
-      url: '/theme/typography',
-      icon: 'icon-pencil',
+      icon: 'icon-people',
     },
     {
       title: true,
-      name: 'Backstage Admin',
+      name: 'Backstage',
       wrapper: {
         element: '',
         attributes: {},
@@ -39,14 +34,9 @@ export default {
       divider: true,
     },
     {
-      name: 'Data pull',
+      name: 'Admin',
       url: '/base',
-      icon: 'icon-puzzle',
-    },
-    {
-      name: 'Decisions',
-      url: '/buttons',
-      icon: 'icon-cursor',
+      icon: 'icon-settings',
     }
   ],
 };

@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     rows: [],
 //     photos: {}
 // }
+
+var adminOpenDesignerChoiceSubmit = false;
 var data = {
     "rows": [
         [
@@ -28,7 +30,9 @@ var data = {
             "Second Year",
             "6'5\"",
             "12",
-            "he him his"
+            "he him his",
+            "https://farm2.staticflickr.com/1972/31795935398_29e85a6e3c.jpg",
+            "https://farm2.staticflickr.com/1972/31795935398_29e85a6e3c.jpg"
         ],
         [
             "Dina Zaher ",
@@ -36,7 +40,9 @@ var data = {
             "First Year",
             "5'10\"",
             "10",
-            "she, hers, her"
+            "she, hers, her",
+            "https://farm5.staticflickr.com/4814/43891028870_c2e439d528.jpg",
+            "https://farm5.staticflickr.com/4814/43891028870_c2e439d528.jpg"
         ],
         [
             "Kathleen Cui",
@@ -44,7 +50,9 @@ var data = {
             "First Year",
             "5'8\"",
             "8",
-            "she/her/hers"
+            "she/her/hers",
+            "https://farm5.staticflickr.com/4864/45658070062_a569d2fe45.jpg",
+            "https://farm5.staticflickr.com/4864/45658070062_a569d2fe45.jpg"
         ],
         [
             "Louis Levin",
@@ -52,7 +60,9 @@ var data = {
             "First Year",
             "6'2\"",
             "12 US",
-            "he/him/his"
+            "he/him/his",
+            "https://farm5.staticflickr.com/4900/43891092900_c2b5c1d41a.jpg",
+            "https://farm5.staticflickr.com/4900/43891092900_c2b5c1d41a.jpg"
         ],
         [
             "Murphy Shorb",
@@ -60,7 +70,9 @@ var data = {
             "First Year",
             "5'2\"",
             "6.5/7",
-            "she/hers"
+            "she/hers",
+            "https://farm5.staticflickr.com/4910/45658087962_1674c77ba8.jpg",
+            "https://farm5.staticflickr.com/4910/45658087962_1674c77ba8.jpg"
         ],
         [
             "Casey Breen",
@@ -68,7 +80,9 @@ var data = {
             "Second Year",
             "5'2\"",
             "7.5",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Ella Parker",
@@ -76,7 +90,9 @@ var data = {
             "First Year",
             "6'0\"",
             "10.5",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "Lodovico De Boni",
@@ -84,7 +100,9 @@ var data = {
             "Second Year",
             "5 10",
             "11",
-            "he/him"
+            "he/him",
+            "",
+            ""
         ],
         [
             "Zavior Phillips",
@@ -92,7 +110,9 @@ var data = {
             "Second Year",
             "6'0\"",
             "12",
-            "he/him/his"
+            "he/him/his",
+            "",
+            ""
         ],
         [
             "Emily Zhu",
@@ -100,7 +120,9 @@ var data = {
             "Second Year",
             "5'5\"",
             "8",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Mario Peracchi  ",
@@ -108,7 +130,9 @@ var data = {
             "Second Year",
             "5'8''",
             "8.5",
-            "he him"
+            "he him",
+            "",
+            ""
         ],
         [
             "Estelle Ndukwe",
@@ -116,7 +140,9 @@ var data = {
             "First Year",
             "5'8",
             "8 1/2",
-            "Miss"
+            "Miss",
+            "",
+            ""
         ],
         [
             "Alexia Bacigalupi",
@@ -124,7 +150,9 @@ var data = {
             "Third Year",
             "5'7",
             "8",
-            "her"
+            "her",
+            "",
+            ""
         ],
         [
             "Stephanie Davis",
@@ -132,7 +160,9 @@ var data = {
             "First Year",
             "6'0",
             "11",
-            "she her hers"
+            "she her hers",
+            "",
+            ""
         ],
         [
             "Olivia De Keyser",
@@ -140,7 +170,9 @@ var data = {
             "Fourth Year",
             "6'",
             "10",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Rachel Hu",
@@ -148,7 +180,9 @@ var data = {
             "First Year",
             "5'7''",
             "7",
-            "she, her"
+            "she, her",
+            "",
+            ""
         ],
         [
             "Roslyn Rios",
@@ -156,7 +190,9 @@ var data = {
             "Second Year",
             "5'2\"",
             "9 Women's",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Greer Baxter",
@@ -164,7 +200,9 @@ var data = {
             "Second Year",
             "5'8\"",
             "8",
-            "She/her/hers"
+            "She/her/hers",
+            "",
+            ""
         ],
         [
             "Isabel Suner",
@@ -172,7 +210,9 @@ var data = {
             "Second Year",
             "5'4\"",
             "7 Women's",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "Alessandro",
@@ -180,7 +220,9 @@ var data = {
             "First Year",
             "5 11",
             "42",
-            "He Him His"
+            "He Him His",
+            "",
+            ""
         ],
         [
             "Estefania Navarro",
@@ -188,7 +230,9 @@ var data = {
             "Second Year",
             "5'8",
             "7",
-            "she her hers "
+            "she her hers ",
+            "",
+            ""
         ],
         [
             "Gautami Galpalli",
@@ -196,7 +240,9 @@ var data = {
             "Fourth Year",
             "5'5\"",
             "7.5",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "Sophie Desch",
@@ -204,7 +250,9 @@ var data = {
             "Third Year",
             "5'6",
             "7.5",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Tara Aggarwal",
@@ -212,7 +260,9 @@ var data = {
             "First Year",
             "5'4",
             "7",
-            "she, her"
+            "she, her",
+            "",
+            ""
         ],
         [
             "Shaili Datta",
@@ -220,7 +270,9 @@ var data = {
             "Fourth Year",
             "5'4\"",
             "7.5",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "Rylen Sigman",
@@ -228,7 +280,9 @@ var data = {
             "Second Year",
             "5'7\"",
             "9",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Julia Fischer",
@@ -236,7 +290,9 @@ var data = {
             "First Year",
             "5 ft 5 in",
             "6.5",
-            "He/she/hers"
+            "He/she/hers",
+            "",
+            ""
         ],
         [
             "Kayla Jessup",
@@ -244,7 +300,9 @@ var data = {
             "First Year",
             "5 ft. 11.5 in.",
             "10",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Kaela Bynoe",
@@ -252,7 +310,9 @@ var data = {
             "Third Year",
             "5'9.5\"",
             "10",
-            "she her hers"
+            "she her hers",
+            "",
+            ""
         ],
         [
             "Marie Harwell",
@@ -260,7 +320,9 @@ var data = {
             "First Year",
             "5 foot 8",
             "8.5",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Melis Ozkan",
@@ -268,7 +330,9 @@ var data = {
             "Second Year",
             "5'7",
             "8 1/2",
-            "She, her"
+            "She, her",
+            "",
+            ""
         ],
         [
             "Delaney Gold-Diamond",
@@ -276,7 +340,9 @@ var data = {
             "Fourth Year",
             "5 foot 1 inch",
             "6.5",
-            "her/hers/she"
+            "her/hers/she",
+            "",
+            ""
         ],
         [
             "Sarah Saltiel",
@@ -284,7 +350,9 @@ var data = {
             "Third Year",
             "5'4",
             "7",
-            "she/they"
+            "she/they",
+            "",
+            ""
         ],
         [
             "Radhika Ramakrishnan",
@@ -292,7 +360,9 @@ var data = {
             "Fourth Year",
             "5 feet 5 inches",
             "6.5",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Fendy Gao",
@@ -300,7 +370,9 @@ var data = {
             "First Year",
             "5 ft 5 inches",
             "6",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Emma Preston",
@@ -308,7 +380,9 @@ var data = {
             "Fourth Year",
             "five feet two inches",
             "8",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Rachel Cheng",
@@ -316,7 +390,9 @@ var data = {
             "Second Year",
             "5 ft 7 in",
             "7",
-            "She/Her"
+            "She/Her",
+            "",
+            ""
         ],
         [
             "Rosie Albrecht",
@@ -324,7 +400,9 @@ var data = {
             "Second Year",
             "5'4\"",
             "8",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Jennifer Zeng",
@@ -332,7 +410,9 @@ var data = {
             "Third Year",
             "5'3''",
             "6",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Olamide Ogunbambo",
@@ -340,7 +420,9 @@ var data = {
             "Third Year",
             "5ft5",
             "9.5",
-            "she/hers/princess"
+            "she/hers/princess",
+            "",
+            ""
         ],
         [
             "Noa Levin",
@@ -348,7 +430,9 @@ var data = {
             "First Year",
             "5'6\"",
             "8.5",
-            "She/her/hers"
+            "She/her/hers",
+            "",
+            ""
         ],
         [
             "Kara Hairston",
@@ -356,7 +440,9 @@ var data = {
             "Third Year",
             "5 ft 5 in",
             "8",
-            "she/hers"
+            "she/hers",
+            "",
+            ""
         ],
         [
             "Maddie Anderson",
@@ -364,7 +450,9 @@ var data = {
             "Fourth Year",
             "5 feet 5 inches",
             "8",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Marilyn Gund",
@@ -372,7 +460,9 @@ var data = {
             "Fourth Year",
             "5'6\"",
             "8.5",
-            "she hers her"
+            "she hers her",
+            "",
+            ""
         ],
         [
             "Michelle Hahn",
@@ -380,7 +470,9 @@ var data = {
             "Second Year",
             "5'5\"",
             "7.5",
-            "She/her/hers"
+            "She/her/hers",
+            "",
+            ""
         ],
         [
             "Catherine Zhang",
@@ -388,7 +480,9 @@ var data = {
             "Fourth Year",
             "5'3",
             "7",
-            "her/hers/she"
+            "her/hers/she",
+            "",
+            ""
         ],
         [
             "Joshua Lam",
@@ -396,7 +490,9 @@ var data = {
             "Fourth Year",
             "6'0",
             "9.5",
-            "he"
+            "he",
+            "",
+            ""
         ],
         [
             "Isabel Getz",
@@ -404,7 +500,9 @@ var data = {
             "First Year",
             "5'7",
             "7-7.5",
-            "She her hers"
+            "She her hers",
+            "",
+            ""
         ],
         [
             "Kara Hairston",
@@ -412,7 +510,9 @@ var data = {
             "Third Year",
             "5 ft 5 in",
             "8",
-            "she/hers"
+            "she/hers",
+            "",
+            ""
         ],
         [
             "Freda Hu",
@@ -420,7 +520,9 @@ var data = {
             "Third Year",
             "5'3",
             "6.5-7",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Yael Caplan",
@@ -428,7 +530,9 @@ var data = {
             "Fourth Year",
             "5'5\"",
             "6.5",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "Taz Urnov",
@@ -436,7 +540,9 @@ var data = {
             "Third Year",
             "5'8\"",
             "8.5/9",
-            "she/her or they/them"
+            "she/her or they/them",
+            "",
+            ""
         ],
         [
             "Alexandria Ma",
@@ -444,7 +550,9 @@ var data = {
             "First Year",
             "5'4''",
             "7/7.5",
-            "She Her Hers"
+            "She Her Hers",
+            "",
+            ""
         ],
         [
             "Natalie Crawford",
@@ -452,7 +560,9 @@ var data = {
             "Third Year",
             "5'7",
             "7.5/8",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Emily Rao",
@@ -460,7 +570,9 @@ var data = {
             "Fourth Year",
             "5'6''",
             "8/8.5",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Christy Cheng",
@@ -468,7 +580,9 @@ var data = {
             "Second Year",
             "5'5",
             "7.5",
-            "She, hers"
+            "She, hers",
+            "",
+            ""
         ],
         [
             "Tiffany Vaughan",
@@ -476,7 +590,9 @@ var data = {
             "First Year",
             "5' 8''",
             "8",
-            "she"
+            "she",
+            "",
+            ""
         ],
         [
             "Valerie Ding",
@@ -484,7 +600,9 @@ var data = {
             "Fourth Year",
             "5 ft 7 in",
             "7",
-            "she her hers"
+            "she her hers",
+            "",
+            ""
         ],
         [
             "Khephren Chambers",
@@ -492,7 +610,9 @@ var data = {
             "Third Year",
             "6'3\"",
             "12",
-            "he/him"
+            "he/him",
+            "",
+            ""
         ],
         [
             "Elizabeth Smith",
@@ -500,7 +620,9 @@ var data = {
             "Fourth Year",
             "5'8\"",
             "9",
-            "She/her/hers"
+            "She/her/hers",
+            "",
+            ""
         ],
         [
             "Andrew Chuang",
@@ -508,7 +630,9 @@ var data = {
             "Fourth Year",
             "5'10\"",
             "9.5",
-            "He/him/his"
+            "He/him/his",
+            "",
+            ""
         ],
         [
             "Tahnee Muller",
@@ -516,7 +640,9 @@ var data = {
             "Third Year",
             "5'8",
             "8",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Kevin Sokal",
@@ -524,7 +650,9 @@ var data = {
             "Fourth Year",
             "5'11''",
             "11",
-            "he/him/his"
+            "he/him/his",
+            "",
+            ""
         ],
         [
             "Alex Theodosakis",
@@ -532,7 +660,9 @@ var data = {
             "Fourth Year",
             "5'8\"",
             "8.5",
-            "She, Her, Hers"
+            "She, Her, Hers",
+            "",
+            ""
         ],
         [
             "Sydney Mathis",
@@ -540,7 +670,9 @@ var data = {
             "Third Year",
             "5'3\"",
             "7",
-            "She"
+            "She",
+            "",
+            ""
         ],
         [
             "Cynthia Aguilar Paredes",
@@ -548,7 +680,9 @@ var data = {
             "Third Year",
             "5'7\"",
             "10",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Michelle Ling",
@@ -556,7 +690,9 @@ var data = {
             "Fourth Year",
             "5'8",
             "8.5",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "perri WIlson",
@@ -564,7 +700,9 @@ var data = {
             "First Year",
             "5'3",
             "7.5",
-            "she"
+            "she",
+            "",
+            ""
         ],
         [
             "Isa Alvarez ",
@@ -572,7 +710,9 @@ var data = {
             "Third Year",
             "5'3",
             "6.5",
-            "she, her ,hers "
+            "she, her ,hers ",
+            "",
+            ""
         ],
         [
             "Cosmo Albrecht",
@@ -580,7 +720,9 @@ var data = {
             "Fourth Year",
             "6'1\" ",
             "11 (wide, preferably)",
-            "he/him"
+            "he/him",
+            "",
+            ""
         ],
         [
             "Petra Byl",
@@ -588,7 +730,9 @@ var data = {
             "Fourth Year",
             "5'11''",
             "10",
-            "she"
+            "she",
+            "",
+            ""
         ],
         [
             "Elle De La Cancela",
@@ -596,7 +740,9 @@ var data = {
             "Fourth Year",
             "5 ft 8",
             "9.5 womens",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Talia Pearl",
@@ -604,7 +750,9 @@ var data = {
             "Fourth Year",
             "5'6\"",
             "7.5",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Julia Holzman",
@@ -612,7 +760,9 @@ var data = {
             "First Year",
             "5'7",
             "9",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "connor fieweger",
@@ -620,7 +770,9 @@ var data = {
             "Third Year",
             "6'",
             "12ish",
-            "he his him"
+            "he his him",
+            "",
+            ""
         ],
         [
             "Natalia Rodriguez",
@@ -628,7 +780,9 @@ var data = {
             "First Year",
             "5'9\"",
             "10.5",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Naomy Grand'Pierre",
@@ -636,7 +790,9 @@ var data = {
             "Third Year",
             "5'9",
             "9",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Laura Turner",
@@ -644,7 +800,9 @@ var data = {
             "Fourth Year",
             "5'6\"",
             "6-6.5",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Antonia Theodosakis",
@@ -652,7 +810,9 @@ var data = {
             "Second Year",
             "5'6''",
             "6",
-            "She/her/hers"
+            "She/her/hers",
+            "",
+            ""
         ],
         [
             "Irena Feng",
@@ -660,7 +820,9 @@ var data = {
             "Third Year",
             "5'6\"",
             "6.5",
-            "she her hers"
+            "she her hers",
+            "",
+            ""
         ],
         [
             "David Yunis",
@@ -668,7 +830,9 @@ var data = {
             "Third Year",
             "5'11\"?",
             "12",
-            "he/him/his"
+            "he/him/his",
+            "",
+            ""
         ],
         [
             "Tina Tan",
@@ -676,7 +840,9 @@ var data = {
             "Third Year",
             "5'4\"",
             "8.5 F",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Faith",
@@ -684,7 +850,9 @@ var data = {
             "Third Year",
             "5'7.5''",
             "7.5",
-            "she,her,hers"
+            "she,her,hers",
+            "",
+            ""
         ],
         [
             "Lucas Penido",
@@ -692,7 +860,9 @@ var data = {
             "Third Year",
             "5'8",
             "9",
-            "He/Him/His"
+            "He/Him/His",
+            "",
+            ""
         ],
         [
             "Rosalind Joyce",
@@ -700,7 +870,9 @@ var data = {
             "Second Year",
             "5'9\"",
             "9.5",
-            "She/Her/Hers"
+            "She/Her/Hers",
+            "",
+            ""
         ],
         [
             "Kate Clement",
@@ -708,7 +880,9 @@ var data = {
             "Second Year",
             "5ft, 5in",
             "8.5",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Anna Bakwin",
@@ -716,7 +890,9 @@ var data = {
             "Second Year",
             "5'3\"-5'4\"",
             "7.5",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Andrea Li",
@@ -724,7 +900,9 @@ var data = {
             "Second Year",
             "5'11\"",
             "9",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Caleb Lugo",
@@ -732,7 +910,9 @@ var data = {
             "Fourth Year",
             "5'10.5",
             "10",
-            "He/him/his"
+            "He/him/his",
+            "",
+            ""
         ],
         [
             "claire drigotas",
@@ -740,7 +920,9 @@ var data = {
             "Third Year",
             "5ft 8",
             "8",
-            "she"
+            "she",
+            "",
+            ""
         ],
         [
             "Rachel Alexander ",
@@ -748,7 +930,9 @@ var data = {
             "Second Year",
             "5ft 8in ",
             "10",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Belle Chen",
@@ -756,7 +940,9 @@ var data = {
             "Second Year",
             "5'7",
             "8",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "Lizzie Hunpatin",
@@ -764,7 +950,9 @@ var data = {
             "Third Year",
             "5'7''",
             "10",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Dhruv Maheshwari",
@@ -772,7 +960,9 @@ var data = {
             "First Year",
             "6 feet 1 inch i think",
             "12",
-            "he him his"
+            "he him his",
+            "",
+            ""
         ],
         [
             "Brandon Huang",
@@ -780,7 +970,9 @@ var data = {
             "First Year",
             "5 9",
             "41.5",
-            "Him His He"
+            "Him His He",
+            "",
+            ""
         ],
         [
             "Evan Marquardt",
@@ -788,7 +980,9 @@ var data = {
             "First Year",
             "5'11\"",
             "12",
-            "He/Him"
+            "He/Him",
+            "",
+            ""
         ],
         [
             "Shreya Sood",
@@ -796,7 +990,9 @@ var data = {
             "Fourth Year",
             "5' 3\"",
             "7.5",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "Harini Shah",
@@ -804,7 +1000,9 @@ var data = {
             "Second Year",
             "5 ft 1 inch",
             "6.5/7",
-            "She, her, hers"
+            "She, her, hers",
+            "",
+            ""
         ],
         [
             "Matthew Martinez",
@@ -812,7 +1010,9 @@ var data = {
             "First Year",
             "6'0",
             "12",
-            "He, Him, His"
+            "He, Him, His",
+            "",
+            ""
         ],
         [
             "Yamini Nambimadom",
@@ -820,7 +1020,9 @@ var data = {
             "Second Year",
             "5'1\"",
             "Female 6",
-            "She/Her/Hers"
+            "She/Her/Hers",
+            "",
+            ""
         ],
         [
             "Priyanka Farrell",
@@ -828,7 +1030,9 @@ var data = {
             "Fourth Year",
             "5 foot 8 inches",
             "9.5",
-            "she/ hers/ her"
+            "she/ hers/ her",
+            "",
+            ""
         ],
         [
             "Lily Grantcharova",
@@ -836,7 +1040,9 @@ var data = {
             "First Year",
             "5 ft 5 in",
             "8.5",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "gabrielle bogert",
@@ -844,7 +1050,9 @@ var data = {
             "Second Year",
             "5'9\"",
             "8.5",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Joseph Wiltzer",
@@ -852,7 +1060,9 @@ var data = {
             "Second Year",
             "6'4",
             "11.5",
-            "He/Him/His"
+            "He/Him/His",
+            "",
+            ""
         ],
         [
             "Kajol Char",
@@ -860,7 +1070,9 @@ var data = {
             "Third Year",
             "5 ft 5 in",
             "8",
-            "she"
+            "she",
+            "",
+            ""
         ],
         [
             "Zoey Twyford",
@@ -868,7 +1080,9 @@ var data = {
             "Fourth Year",
             "5'7",
             "8/15-9",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Tiffany Wu",
@@ -876,7 +1090,9 @@ var data = {
             "First Year",
             "5'6\"",
             "7.5",
-            "She, her, hers"
+            "She, her, hers",
+            "",
+            ""
         ],
         [
             "Sarah Wasik ",
@@ -884,7 +1100,9 @@ var data = {
             "Third Year",
             "5' 8\" ",
             "10",
-            "she her hers"
+            "she her hers",
+            "",
+            ""
         ],
         [
             "Elly McCarthy",
@@ -892,7 +1110,9 @@ var data = {
             "Third Year",
             "5'4.5''",
             "8",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Martina Lentino",
@@ -900,7 +1120,9 @@ var data = {
             "Third Year",
             "5'9\"",
             "8 1/2",
-            "she"
+            "she",
+            "",
+            ""
         ],
         [
             "Elizabeth Ortiz",
@@ -908,7 +1130,9 @@ var data = {
             "Third Year",
             "5.6",
             "8",
-            "Her/hers"
+            "Her/hers",
+            "",
+            ""
         ],
         [
             "Chika Anikamadu",
@@ -916,7 +1140,9 @@ var data = {
             "Second Year",
             "6'1\"",
             "10",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "Munachiso Okebalama",
@@ -924,7 +1150,9 @@ var data = {
             "Second Year",
             "5'11\"",
             "11",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Tracy Liu",
@@ -932,7 +1160,9 @@ var data = {
             "First Year",
             "166 cm ",
             "7 or 6 1/2",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Hannah Jacobs-El",
@@ -940,7 +1170,9 @@ var data = {
             "Fourth Year",
             "5'2\"",
             "6.5",
-            "She/Her/Hers"
+            "She/Her/Hers",
+            "",
+            ""
         ],
         [
             "Tunisia Tai",
@@ -948,7 +1180,9 @@ var data = {
             "Fourth Year",
             "5'4",
             "7",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Ruby Ross",
@@ -956,7 +1190,9 @@ var data = {
             "Second Year",
             "5'6''",
             "8",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Amelia Frank",
@@ -964,7 +1200,9 @@ var data = {
             "Second Year",
             "5'5\"?",
             "8.5",
-            "she/her"
+            "she/her",
+            "",
+            ""
         ],
         [
             "Radhika Upadhye",
@@ -972,7 +1210,9 @@ var data = {
             "Second Year",
             "5 ft 4 in",
             "7 - 7.5",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Phuca Nguyen",
@@ -980,7 +1220,9 @@ var data = {
             "Second Year",
             "5'6''",
             "7.5 or 8",
-            "She"
+            "She",
+            "",
+            ""
         ],
         [
             "Arushi Saksena",
@@ -988,7 +1230,9 @@ var data = {
             "Third Year",
             "5'5\"",
             "8",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "Tuyaa Montgomery",
@@ -996,7 +1240,9 @@ var data = {
             "Fourth Year",
             "5'3\"",
             "6",
-            "She/her/hers"
+            "She/her/hers",
+            "",
+            ""
         ],
         [
             "Kuba Sokolowski",
@@ -1004,7 +1250,9 @@ var data = {
             "Second Year",
             "5'9\"",
             "10 mens",
-            "he/him/his"
+            "he/him/his",
+            "",
+            ""
         ],
         [
             "Jenny Lim",
@@ -1012,7 +1260,9 @@ var data = {
             "Third Year",
             "5'4\"",
             "7",
-            "she her hers"
+            "she her hers",
+            "",
+            ""
         ],
         [
             "Ariel Jackson",
@@ -1020,7 +1270,9 @@ var data = {
             "Fourth Year",
             "5'8\"",
             "7/7.5",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Hanna Pfeiffer",
@@ -1028,7 +1280,9 @@ var data = {
             "Third Year",
             "6 feet 0 inches",
             "10.5 or 11",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Amanda Milkovits",
@@ -1036,7 +1290,9 @@ var data = {
             "Second Year",
             "5 9",
             "9",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Jiazhen (Peng-Peng) Liu",
@@ -1044,7 +1300,9 @@ var data = {
             "Second Year",
             "5'8\"",
             "8",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Madison Jewell",
@@ -1052,7 +1310,9 @@ var data = {
             "Second Year",
             "5' 8\"",
             "7 1/2",
-            "she her hers"
+            "she her hers",
+            "",
+            ""
         ],
         [
             "Andrew Chang",
@@ -1060,7 +1320,9 @@ var data = {
             "First Year",
             "5 feet 9.5 inches",
             "10-10.5",
-            "he, him, his"
+            "he, him, his",
+            "",
+            ""
         ],
         [
             "Jonathan Lim",
@@ -1068,7 +1330,9 @@ var data = {
             "Fourth Year",
             "5'9\"",
             "10",
-            "He/him"
+            "He/him",
+            "",
+            ""
         ],
         [
             "Lancy Zhan",
@@ -1076,7 +1340,9 @@ var data = {
             "Third Year",
             "165 cm",
             "37.5",
-            "She"
+            "She",
+            "",
+            ""
         ],
         [
             "Zander Cowan",
@@ -1084,7 +1350,9 @@ var data = {
             "Third Year",
             "6 ft 1 in",
             "12",
-            "He/Him/His"
+            "He/Him/His",
+            "",
+            ""
         ],
         [
             "Bethany Ko",
@@ -1092,7 +1360,9 @@ var data = {
             "Second Year",
             "5ft7",
             "7",
-            "She"
+            "She",
+            "",
+            ""
         ],
         [
             "Audrey Scrafford",
@@ -1100,7 +1370,9 @@ var data = {
             "Third Year",
             "6ft ",
             "9.5",
-            "She/her/hers"
+            "She/her/hers",
+            "",
+            ""
         ],
         [
             "Kanisha Williams",
@@ -1108,7 +1380,9 @@ var data = {
             "Fourth Year",
             "5'4\"",
             "7",
-            "she/her/hers"
+            "she/her/hers",
+            "",
+            ""
         ],
         [
             "Maximilian Site",
@@ -1116,7 +1390,9 @@ var data = {
             "Second Year",
             "6'0",
             "11.5",
-            "he/him/his"
+            "he/him/his",
+            "",
+            ""
         ],
         [
             "Kira Ke",
@@ -1124,7 +1400,9 @@ var data = {
             "Fourth Year",
             "5'9'' ",
             "40",
-            "She, her "
+            "She, her ",
+            "",
+            ""
         ],
         [
             "Tanya Sonthalia",
@@ -1132,7 +1410,9 @@ var data = {
             "Fourth Year",
             "5'4",
             "7",
-            "She/her/hers"
+            "She/her/hers",
+            "",
+            ""
         ],
         [
             "Elizabeth Brandon",
@@ -1140,7 +1420,9 @@ var data = {
             "Second Year",
             "5' 8",
             "8.5",
-            "she"
+            "she",
+            "",
+            ""
         ],
         [
             "David Amano",
@@ -1148,7 +1430,9 @@ var data = {
             "Second Year",
             "5'11''",
             "9.5 (usually)",
-            "He/him/his"
+            "He/him/his",
+            "",
+            ""
         ],
         [
             "Surabhi Somani",
@@ -1156,7 +1440,9 @@ var data = {
             "Third Year",
             "5 ft 5 in",
             "8? not 100% sure",
-            "She her hers"
+            "She her hers",
+            "",
+            ""
         ],
         [
             "Kenny Loke",
@@ -1164,7 +1450,9 @@ var data = {
             "Third Year",
             "6 ft 0",
             "Size 10",
-            "he/him/they"
+            "he/him/they",
+            "",
+            ""
         ],
         [
             "Maya Baumann",
@@ -1172,7 +1460,9 @@ var data = {
             "Fourth Year",
             "5 foot 4 inches",
             "8 1/2",
-            "she/her/her"
+            "she/her/her",
+            "",
+            ""
         ],
         [
             "Ravi Bakhai",
@@ -1180,7 +1470,9 @@ var data = {
             "Third Year",
             "6",
             "11",
-            "he"
+            "he",
+            "",
+            ""
         ],
         [
             "Rachel Much",
@@ -1188,7 +1480,9 @@ var data = {
             "Third Year",
             "5'6",
             "8",
-            "She/her"
+            "She/her",
+            "",
+            ""
         ],
         [
             "Tyler He",
@@ -1196,7 +1490,9 @@ var data = {
             "Third Year",
             "6'0\"",
             "11.5/12",
-            "he/him/his"
+            "he/him/his",
+            "",
+            ""
         ],
         [
             "Natalie Gray",
@@ -1204,7 +1500,9 @@ var data = {
             "Fourth Year",
             "5'4''",
             "6-6.5",
-            "she, her, hers"
+            "she, her, hers",
+            "",
+            ""
         ],
         [
             "michelle zhou",
@@ -1212,7 +1510,9 @@ var data = {
             "First Year",
             "5'7\"",
             "9",
-            "she, her, hers "
+            "she, her, hers ",
+            "",
+            ""
         ],
         [
             "blowey",
@@ -1220,15 +1520,61 @@ var data = {
             "Third Year",
             "5'7.5''",
             "7.5",
-            "she,her,hers"
+            "she,her,hers",
+            "",
+            ""
         ]
     ],
     "photos": {
         "page": 1,
         "pages": 1,
         "perpage": 100,
-        "total": "1",
+        "total": "5",
         "photo": [
+            {
+                "id": "45658087962",
+                "owner": "144887162@N03",
+                "secret": "1674c77ba8",
+                "server": "4910",
+                "farm": 5,
+                "title": "5",
+                "ispublic": 0,
+                "isfriend": 1,
+                "isfamily": 1
+            },
+            {
+                "id": "43891092900",
+                "owner": "144887162@N03",
+                "secret": "c2b5c1d41a",
+                "server": "4900",
+                "farm": 5,
+                "title": "4",
+                "ispublic": 0,
+                "isfriend": 1,
+                "isfamily": 1
+            },
+            {
+                "id": "45658070062",
+                "owner": "144887162@N03",
+                "secret": "a569d2fe45",
+                "server": "4864",
+                "farm": 5,
+                "title": "3",
+                "ispublic": 0,
+                "isfriend": 1,
+                "isfamily": 1
+            },
+            {
+                "id": "43891028870",
+                "owner": "144887162@N03",
+                "secret": "c2e439d528",
+                "server": "4814",
+                "farm": 5,
+                "title": "2",
+                "ispublic": 0,
+                "isfriend": 1,
+                "isfamily": 1
+            },
             {
                 "id": "31795935398",
                 "owner": "144887162@N03",
@@ -1243,6 +1589,9 @@ var data = {
         ]
     }
 }
+
+var designerData;
+
 
 function makePictureLink(photoObj) {
     if (photoObj !== "undefined") {
@@ -1294,7 +1643,7 @@ app.get('/api/hello', (req, res) => {
     console.log("hello get request recieved")
     getDataOnConnection().then(function(result) {
         if (result !== "undefined") {
-            console.log(result)
+            //console.log(result)
             //formatData(result)
             res.send(formatData(result))
         }
@@ -1305,9 +1654,16 @@ app.get('/api/hello', (req, res) => {
 app.post('/api/world', (req, res) => {
 
   console.log(req.body);
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`,
-  );
+  console.log(typeof(designerData[req.body.code]))
+  if (typeof(designerData[req.body.code]) == "undefined"){
+    console.log("sending error!")
+    res.send("Error: unknown code - please check that your code is correct");
+  } else {
+    designerData[req.body.code]["choices"] = req.body.choices
+    //console.log(designerData)
+    res.send("Submission successful - your selections have been accepted");
+  }
+  
 });
 
 
@@ -1421,6 +1777,50 @@ function getSpreadsheet(auth) {
     });
 }
 
+function getDesignerSpreadsheet(auth) {
+    //console.log("get spreadsheet callback")
+    const sheets = google.sheets({version: 'v4', auth});
+    sheets.spreadsheets.values.get({
+        spreadsheetId: '1f0Sedf7yeI7gBZ8u2l_27eNiIETAdKHLalQMfhSTO3g',
+        range: 'A2:D25',
+    }, (err, res) => {
+        if (err) return console.log('The API returned an error: ' + err);
+        let result = res.data.values;
+        if (result.length) {
+      
+            designerData = formatDesignerData(result)
+            //console.log("printing first row")
+            //console.log(designerData);
+            // Print columns A and E, which correspond to indices 0 and 4.
+
+        } else {
+            console.log('No data found.');
+        }
+    });
+}
+
+
+
+async function getDesignerInfo() {
+    await fs.readFile('credentials.json', (err, content) => {
+            if (err) return console.log('Error loading client secret file:', err);
+            // Authorize a client with credentials, then call the Google Sheets API.
+            authorize(JSON.parse(content), getDesignerSpreadsheet);
+        });
+}
+
+function formatDesignerData(data) {
+    var obj = {}
+    // form designers unique code and append to arrary of info
+    data.map(function(entry) {
+        var code = entry[0].slice(0, 3) + entry[1] + entry[2].slice(0, 3);
+        obj[code.toLowerCase()] = {info: entry}
+        
+    })
+    //console.log(obj)
+    return obj
+}
+
 
 
 async function getDataOnConnection () {
@@ -1437,7 +1837,7 @@ async function getDataOnConnection () {
         console.log("spreadsheet block done: " + data.rows[0])
         console.log("getting photos")
         // Get photos next
-       await https.get('https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=a788049f778a8958acae21ee57c636fa&user_id=144887162%40N03&per_page=300&format=json&nojsoncallback=1&auth_token=72157702991466514-631111e291eeb5dc&api_sig=5a581693abe84d763e16ec6040777a95',
+       await https.get('https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=b7ae4daa204a1d65aa2a0dedf0b75440&user_id=144887162%40N03&format=json&nojsoncallback=1&auth_token=72157703167858315-7525b6210a510eaa&api_sig=b1b54542ea280706d51269868a0048f0',
             (resp) => {
             console.log("htto get has returned")
             let photoData = '';
@@ -1458,6 +1858,7 @@ async function getDataOnConnection () {
             console.log("Error: " + err.message);
         });
        //console.log(data)
+
        return data;
     } else {
         return data;
@@ -1480,6 +1881,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+getDesignerInfo()
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
