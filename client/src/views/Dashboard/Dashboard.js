@@ -105,29 +105,6 @@ class Dashboard extends Component {
     });
   }
 
-  // hit pull data from backend (which pulls data from source)
-  // every
-
-
-    //
-    // handleSubmit = async e => {
-    //     e.preventDefault();
-    //     const response = await fetch('/api/world', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ post: this.state.post }),
-    //     });
-    //     const body = await response.text();
-    //
-    //     this.setState({ responseToPost: body });
-    // };
-  // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-  //   [{"id":"31795935398","owner":"144887162@N03",
-  //       "secret":"29e85a6e3c","server":"1972",
-  //       "farm":2,"title":"1","ispublic":0,
-  //       "isfriend":1,"isfamily":1}]},"stat":"ok"}
 
   render() {
 

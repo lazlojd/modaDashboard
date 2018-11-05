@@ -33,6 +33,7 @@ class Colors extends Component {
     this.addRow = this.addRow.bind(this)
     this.handleInput = this.handleInput.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.onDismiss = this.onDismiss.bind(this);
     // model choice array will represent the choices as such
     // [1st Model choices, 2nd model choices, 3rd model choices, ..]
     // Designers choose multiple models in the case that they do not
@@ -42,11 +43,18 @@ class Colors extends Component {
         additionalRows: 0,
         designerCode: '',
         modelChoices: [[], [], []],
-        submitSuccess: 0
+        submitSuccess: false,
+        responseMessage: '',
+        visible: true
     };
   }
 
+  onDismiss() {
+      this.setState({ visible: false });
+  }
+
   handleInput(event, modelChoice, selectionNumber) {
+    // if modelChoice is less then 0, we are dealing with designerCode
     if (modelChoice < 0) {
       this.setState({designerCode: event.target.value})
     } else {
@@ -76,7 +84,7 @@ class Colors extends Component {
   }
 
   async handleSubmit() {
-    const response = await fetch('/api/world', {
+    const response = await fetch('/api/selection', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,17 +92,13 @@ class Colors extends Component {
       body: JSON.stringify({code: this.state.designerCode , choices: this.state.modelChoices}),
     });
     const body = await response.text();
-    console.log(body)
-    if (body.slice(0, 5) == "Error")
-      this.setState({submitSuccess: 2})
+    var code = body.slice(0, 3)
+    if (code != '200')
+      this.setState({submitSuccess: false, responseMessage: body.replace(code, ""), visible: true})
     else
-      this.setState({submitSuccess: 1})
-    
-    if (this.state.submitSuccess != 0) {
-          setTimeout(() => {
-            this.setState({submitSuccess: 0})
-          }, 3000)
-      }
+      this.setState({submitSuccess: true, responseMessage: body.replace(code, ""), visible: true})
+
+
   };
 
   
@@ -107,16 +111,17 @@ class Colors extends Component {
     const classes = classNames(className, 'theme-color w-75 rounded mb-3')
 
     var successMessage = (() => {
-      if (this.state.submitSuccess == 2) {
-        return (<Alert color="danger">
-                  Error - unknown code, please make sure you have the right code
-                </Alert>)
-      } else if (this.state.submitSuccess == 1) {
-        return (<Alert color="success">
-                  Submission successful!
-                </Alert>)
-      } else
-        return;
+      console.log(this.state.submitSuccess + " -- " + this.state.responseMessage)
+      if (this.state.submitSuccess) {
+        return (<Alert color="success" isOpen={this.state.visible} toggle={this.onDismiss}>
+                          {this.state.responseMessage}
+                        </Alert>)
+      } else if (!this.state.submitSuccess && this.state.responseMessage != '') {
+        return (<Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss}>
+                           {this.state.responseMessage}
+                        </Alert>)
+      }
+
     })
 
 
@@ -128,13 +133,13 @@ class Colors extends Component {
               <td>Selection {4 + i}</td>
               <td><Input type="number" id="name" placeholder="Model Number"
                          value={this.state.modelChoices[0][3 + i]}
-                         onChange={(event) => this.handleInput(event, 0, 3 + i)}/></td>
+                         onChange={(event) => this.handleInput(event, 0, 3 + i)} min="1"/></td>
               <td><Input type="number" id="name" placeholder="Model Number"
                          value={this.state.modelChoices[1][3 + i]}
-                         onChange={(event) => this.handleInput(event, 1, 3 + i)}/></td>
+                         onChange={(event) => this.handleInput(event, 1, 3 + i)} min="1"/></td>
               <td><Input type="number" id="name" placeholder="Model Number"
                          value={this.state.modelChoices[2][3 + i]}
-                         onChange={(event) => this.handleInput(event, 2, 3 + i)}/></td>
+                         onChange={(event) => this.handleInput(event, 2, 3 + i)} min="1"/></td>
               {moreColumns(i + 3)}
             </tr>
         )
@@ -153,6 +158,7 @@ class Colors extends Component {
             <td><Input type="number" id="name" placeholder="Model Number"
                                      value={this.state.modelChoices[i + 3][selectionNo]}
                                      onChange={(event) => this.handleInput(event, i + 3, selectionNo)}
+                                     min="1"
             /></td>
         )
       }
@@ -172,10 +178,8 @@ class Colors extends Component {
     var cardWidth = {width: 1000} 
     return (
       <div>
-      <Row>
-        <Form onSubmit={this.handleSubmit}>
-        <Col xs="12" lg="6">
-            <Card style={cardWidth}>
+        <Form onSubmit={() => this.handleSubmit()}>
+            <Card>
                 <CardHeader>
                     <i className="fa fa-align-justify"></i> Your Model Choices
                 </CardHeader>
@@ -196,13 +200,13 @@ class Colors extends Component {
                             <td>Selection 1</td>
                             <td><Input type="number" id="name" placeholder="Model Number"
                                        required value={this.state.modelChoices[0][0]}
-                                       onChange={(event) => this.handleInput(event, 0, 0)}/></td>
+                                       onChange={(event) => this.handleInput(event, 0, 0)} min="1"/></td>
                             <td><Input type="number" id="name" placeholder="Model Number"
                                        required value={this.state.modelChoices[1][0]}
-                                       onChange={(event) => this.handleInput(event, 1, 0)}/></td>
+                                       onChange={(event) => this.handleInput(event, 1, 0)} min="1"/></td>
                             <td><Input type="number" id="name" placeholder="Model Number"
                                        required value={this.state.modelChoices[2][0]}
-                                       onChange={(event) => this.handleInput(event, 2, 0)}/></td>
+                                       onChange={(event) => this.handleInput(event, 2, 0)} min="1"/></td>
                             {moreColumns(0)}
                            
                         </tr>
@@ -210,13 +214,13 @@ class Colors extends Component {
                             <td>Selection 2</td>
                             <td><Input type="number" id="name" placeholder="Model Number"
                                        required value={this.state.modelChoices[0][1]}
-                                       onChange={(event) => this.handleInput(event, 0, 1)}/></td>
+                                       onChange={(event) => this.handleInput(event, 0, 1)} min="1"/></td>
                             <td><Input type="number" id="name" placeholder="Model Number"
                                        required value={this.state.modelChoices[1][1]}
-                                       onChange={(event) => this.handleInput(event, 1, 1)}/></td>
+                                       onChange={(event) => this.handleInput(event, 1, 1)} min="1"/></td>
                             <td><Input type="number" id="name" placeholder="Model Number"
                                        requiredvalue={this.state.modelChoices[2][1]}
-                                       onChange={(event) => this.handleInput(event, 2, 1)}/></td>
+                                       onChange={(event) => this.handleInput(event, 2, 1)} min="1"/></td>
                             {moreColumns(1)}
                            
                         </tr>
@@ -224,13 +228,13 @@ class Colors extends Component {
                             <td>Selection 3</td>
                             <td><Input type="number" id="name" placeholder="Model Number"
                                        required value={this.state.modelChoices[0][2]}
-                                       onChange={(event) => this.handleInput(event, 0, 2)}/></td>
+                                       onChange={(event) => this.handleInput(event, 0, 2)} min="1"/></td>
                             <td><Input type="number" id="name" placeholder="Model Number"
                                        required value={this.state.modelChoices[1][2]}
-                                       onChange={(event) => this.handleInput(event, 1, 2)}/></td>
+                                       onChange={(event) => this.handleInput(event, 1, 2)} min="1"/></td>
                             <td><Input type="number" id="name" placeholder="Model Number"
                                        required value={this.state.modelChoices[2][2]}
-                                       onChange={(event) => this.handleInput(event, 2, 2)}/></td>
+                                       onChange={(event) => this.handleInput(event, 2, 2)} min="1"/></td>
                             {moreColumns(2)}
                            
                         </tr>
@@ -247,9 +251,9 @@ class Colors extends Component {
                       </Col>
                       <Col xs="12" md="9">
                         <Input type="text" id="code" name="codeInput" 
-                        placeholder="Your designer code" 
-                        required value={this.state.designerCode}
-                        onChange={(event) => this.handleInput(event, -1, 0)}/>
+                            placeholder="Your designer code"
+                            required value={this.state.designerCode}
+                            onChange={(event) => this.handleInput(event, -1, 0)}/>
                         <FormText color="muted">First 3 letters of first name + year in college + first 3 letters of email</FormText>
                       </Col>
                     </FormGroup>
@@ -258,9 +262,9 @@ class Colors extends Component {
                     <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
                 </CardFooter>
             </Card>
-        </Col>
+
         </Form>
-      </Row>
+
 
       <Row>
         {successMessage()}

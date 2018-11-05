@@ -1,401 +1,241 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardFooter, CardHeader, Col, Row, Collapse, Fade } from 'reactstrap';
+import { Badge,
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    Col,
+    Row,
+    Collapse,
+    Fade,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Button,
+    Alert} from 'reactstrap';
 import { AppSwitch } from '@coreui/react'
 
 class Cards extends Component {
   constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.toggleFade = this.toggleFade.bind(this);
+    this.handleActivation = this.handleActivation.bind(this)
+    this.handleGenerate = this.handleGenerate.bind(this)
+    this.onDismiss = this.onDismiss.bind(this)
+    this.verifyAccessKey = this.verifyAccessKey.bind(this)
     this.state = {
-      collapse: true,
-      fadeIn: true,
-      timeout: 300
+        accessKey: '',
+        authorizedAccessKey: false,
+        activateResponse: '',
+        generateResponse: '',
+        generateSuccess: false,
+        activateVisible: false,
+        generateVisible: false
     };
   }
 
-  toggle() {
-    this.setState({ collapse: !this.state.collapse });
+  callApi = async (endpoint) => {
+          const response = await fetch(endpoint);
+          const body = await response.json();
+
+          if (response.status !== 200) throw Error(body.message);
+
+          return body;
+     };
+
+  verifyAccessKey() {
+    var verified = true;
+    if (this.state.accessKey.length == 0) {
+        alert("Error - no access key provided")
+        verified = false
+    }
+    else if (!this.state.authorizedAccessKey) {
+        alert("Unauthorized access key - to activate this functionality, please input correct access key")
+        verified = false
+    }
+    return verified
   }
 
-  toggleFade() {
-    this.setState((prevState) => { return { fadeIn: !prevState }});
+  onDismiss(field) {
+    if (field == 0)
+       this.setState({activateVisible: false});
+    else if (field == 1)
+       this.setState({generateVisible: false});
   }
+
+
+
+  async handleCode(event) {
+    let value = event.target.value
+    const response = await fetch('/api/codeVerification', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({key: value}),
+        });
+    const body = await response.json();
+    if (body.status != 200)
+        this.setState({authorizedAccessKey: false, accessKey: value})
+    else
+        this.setState({authorizedAccessKey: true,  accessKey: value})
+  }
+
+  handleActivation(event) {
+        if (!this.verifyAccessKey())
+            return;
+
+        this.callApi('/api/activate')
+                    .then(res => {
+                        console.log(res.message)
+                        this.setState({activateResponse: res.message, activateVisible: true})
+                    })
+                    .catch(err => console.log(err));
+  }
+
+  handleGenerate(event) {
+       if (!this.verifyAccessKey())
+             return;
+       this.callApi('/api/generate').then(res => {
+           var code = res.message.slice(0, 3)
+           if (code != '200')
+                this.setState({generateResponse: res.message.replace(code, ""), generateSuccess: false, generateVisible: true})
+       })
+       .catch(err => console.log(err));
+  }
+
+  // Not necessary for version 1.0
+  handleIds(event) {
+      // TODO
+   }
+
 
   render() {
+    var activateMessage = (() => {
+        return(<Alert color="success" isOpen={this.state.activateVisible} toggle={() => this.onDismiss(0)}>
+                 {this.state.activateResponse}
+               </Alert>)
+    })
+
+    var generateMessage = (() => {
+        var color;
+        if (this.state.generateSuccess)
+            color = "success"
+        else
+            color ="danger"
+
+        return(<Alert color={color} isOpen={this.state.generateVisible} toggle={() => this.onDismiss(1)}>
+                             {this.state.generateResponse}
+                           </Alert>)
+     })
+
+    var accessKeyIndication = (() => {
+        var color;
+        if (this.state.authorizedAccessKey)
+            return "bg-success"
+        else
+            return "bg-warning"
+
+        return
+    })
+
+    var appSwitch = (() => {
+        if (!this.state.authorizedAccessKey) {
+            return (<AppSwitch
+            className={'justify-center mb-0'}
+            label color={'info'} size={'lg'}
+            onChange={(e) => this.handleActivation(e)} disabled/>)
+        } else {
+
+            return(<AppSwitch
+            className={'justify-center mb-0'}
+            label color={'info'} size={'lg'}
+            onChange={(e) => this.handleActivation(e)}/>)
+        }
+
+    })
+
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col xs="12" sm="6" md="4">
-            <Card>
-              <CardHeader>
-                Card title
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-              <CardFooter>Card footer</CardFooter>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card>
-              <CardHeader>
-                <i className="fa fa-check float-right"></i>Card with icon
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card>
-              <CardHeader>
-                Card with switch
-                <AppSwitch className={'float-right mb-0'} label color={'info'} defaultChecked size={'sm'}/>
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card>
-              <CardHeader>
-                Card with label
-                <Badge color="success" className="float-right">Success</Badge>
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card>
-              <CardHeader>
-                Card with label
-                <Badge pill color="danger" className="float-right">42</Badge>
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" sm="6" md="4">
-            <Card className="border-primary">
-              <CardHeader>
-                Card outline primary
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="border-secondary">
-              <CardHeader>
-                Card outline secondary
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="border-success">
-              <CardHeader>
-                Card outline success
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="border-info">
-              <CardHeader>
-                Card outline info
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="border-warning">
-              <CardHeader>
-                Card outline warning
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="border-danger">
-              <CardHeader>
-                Card outline danger
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+        <Card className={accessKeyIndication()}>
+          <CardBody>
+          <Form inline>
+            <Label htmlFor="adminCode" className="pr-1"> Admin access key</Label>
+            <Input type="text" id="adminCode" value={this.state.accessKey} onChange={(e) => this.handleCode(e)}/>
+           </Form>
+           </CardBody>
+        </Card>
 
-        <Row>
-          <Col xs="12" sm="6" md="4">
-            <Card className="card-accent-primary">
-              <CardHeader>
-                Card with accent
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="card-accent-secondary">
-              <CardHeader>
-                Card with accent
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="card-accent-success">
-              <CardHeader>
-                Card with accent
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="card-accent-info">
-              <CardHeader>
-                Card with accent
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="card-accent-warning">
-              <CardHeader>
-                Card with accent
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="card-accent-danger">
-              <CardHeader>
-                Card with accent
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-primary text-center">
-              <CardBody>
-                <blockquote className="card-bodyquote">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                </blockquote>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-success text-center">
-              <CardBody>
-                <blockquote className="card-bodyquote">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                </blockquote>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-info text-center">
-              <CardBody>
-                <blockquote className="card-bodyquote">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                </blockquote>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-warning text-center">
-              <CardBody>
-                <blockquote className="card-bodyquote">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                </blockquote>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-danger text-center">
-              <CardBody>
-                <blockquote className="card-bodyquote">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                </blockquote>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-primary text-center">
-              <CardBody>
-                <blockquote className="card-bodyquote">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                </blockquote>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-primary">
-              <CardHeader>
-                Card title
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-success">
-              <CardHeader>
-                Card title
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-info">
-              <CardHeader>
-                Card title
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-warning">
-              <CardHeader>
-                Card title
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Card className="text-white bg-danger">
-              <CardHeader>
-                Card title
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="12" sm="6" md="4">
-            <Fade timeout={this.state.timeout} in={this.state.fadeIn}>
-              <Card>
-                <CardHeader>
-                  Card actions
-                  <div className="card-header-actions">
-                    <a href="#" className="card-header-action btn btn-setting"><i className="icon-settings"></i></a>
-                    <a className="card-header-action btn btn-minimize" data-target="#collapseExample" onClick={this.toggle}><i className="icon-arrow-up"></i></a>
-                    <a className="card-header-action btn btn-close" onClick={this.toggleFade}><i className="icon-close"></i></a>
-                  </div>
-                </CardHeader>
-                <Collapse isOpen={this.state.collapse} id="collapseExample">
-                  <CardBody>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                    laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                    ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-                  </CardBody>
-                </Collapse>
-              </Card>
-            </Fade>
-          </Col>
+          <Card className="card-accent-primary">
+            <CardHeader>
+              Activate model decision submissions
+            </CardHeader>
+            <CardBody>
+              Allow models to submit their ranked model preferences and view their choices.
+            </CardBody>
+            <CardFooter>
+             {appSwitch()}
+            </CardFooter>
+          </Card>
 
-        </Row>
+          {activateMessage()}
+          <Card className="card-accent-secondary">
+              <CardHeader>
+                Generate matching
+              </CardHeader>
+                <CardBody>
+                  Generate designer - model matching based on matching algorithm and view results.
+                </CardBody>
+                <CardFooter>
+                    <Button type="submit" size="sm" color="info" onClick = {() => this.handleGenerate()}><i className="fa icon-share"></i> Generate</Button>
+                </CardFooter>
+          </Card>
+          {generateMessage()}
+          <Card className="card-accent-warning">
+            <CardHeader>
+              Spreadsheet ID's
+            </CardHeader>
+            <CardBody>
+              Enter the spreadsheet ID's of the google sheets with designer info and the google sheet
+              with the model call form information -- NOT implemented in this version
+            </CardBody>
+            <CardFooter>
+             <Form action="" inline>
+                  <FormGroup className="pr-1">
+                    <Label htmlFor="id1" className="pr-1">Model Form</Label>
+                    <Input type="text" id="id1" required />
+                  </FormGroup>
+                  <FormGroup className="pr-1 text-right">
+                    <Label htmlFor="id2" className="pr-1">Designer Form</Label>
+                    <Input type="text" id="id2" required />
+                  </FormGroup>
+                  <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+              </Form>
+            </CardFooter>
+          </Card>
+          <Card className="card-accent-info">
+            <CardHeader>
+              Download CSV
+            </CardHeader>
+              <CardBody>
+                Generate and download excel file of selected models, all their associated information,
+                and the designer that selected them
+              </CardBody>
+              <CardFooter>
+                  <Button type="submit" size="sm" color="info" onClick = {() => this.handleGenerate()}><i className="fa icon-share"></i> Generate</Button>
+              </CardFooter>
+          </Card>
+          <Card className="card-accent-secondary">
+            <CardHeader>
+              Show designer information
+            </CardHeader>
+              <CardBody>
+                 Show designer information from designer spreadsheet along with designer code
+              </CardBody>
+              <CardFooter>
+                  <Button type="submit" size="sm" color="info" onClick = {() => this.handleShowDesignerInfo()}><i className="fa icon-eye"></i> Show</Button>
+              </CardFooter>
+          </Card>
       </div>
     );
   }
