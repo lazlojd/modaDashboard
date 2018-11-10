@@ -23,7 +23,11 @@ import {
   Table,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  FormGroup,
+  InputGroup,
+  InputGroupAddon,
+  Input
 } from 'reactstrap';
 import Widget03 from '../../views/Widgets/Widget03'
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -42,27 +46,34 @@ class Dashboard extends Component {
     this.toggle = this.toggle.bind(this);
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
     this.handleClick = this.handleClick.bind(this)
+    this.setResponse = this.setResponse.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
 
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
-      flickrURL: ['https://farm', '.staticflickr.com/', '.jpg'],
       response: [],
       activePage: 1,
       activePageList: [],
       post: '',
       responseToPost: '',
+      search: ''
     };
   }
 
+  handleSearch(event) {
+    console.log("Entered handleSearch")
+    console.log("value: " + event.target.value.trim())
+    this.setState({search: event.target.value.trim()})
+  }
   handleClick(index) {
       // check if active page has been selected
       console.log(this.state.activePage)
       if (this.state.activePage == index)
           return;
 
-      //check if index is within range of acceptable pages
-      if(index > Math.ceil(this.state.response.length / 30) || index < 1)
+      //check if index is within range of a page
+      if(index > Math.ceil(this.state.response.length / cardsPerPage) || index < 1)
           return;
 
       // calculate offset
@@ -76,12 +87,25 @@ class Dashboard extends Component {
 
   }
 
-  componentDidMount() {
+    setResponse(response) {
+        this.setState({response: response})
+    }
+
+    componentDidMount() {
         this.callApi()
             .then(res => {this.setState({ response: res.rows, activePageList: res.rows.slice(0, cardsPerPage)});
-                //console.log(this.state.response);
+                console.log(this.state.response);
             })
             .catch(err => console.log(err));
+
+        // Fetch fresh data from backend every 15 seconds
+        setInterval(() => {
+            console.log("fetching ")
+            var offset = cardsPerPage * (this.state.activePage - 1);
+            var response = this.callApi()
+            .then(res => {this.setState({response: res.rows, activePageList: res.rows.slice(offset, offset + cardsPerPage)})}).catch(err => console.log(err));
+
+        }, 10000)
     }
 
     callApi = async () => {
@@ -109,11 +133,11 @@ class Dashboard extends Component {
   render() {
 
     /*
-    Limit the number of items on a page to 30 because flickr api usage
-    request no more than 30 photos per page for bandwidth reasons
+    Limit the number of items on a page to 30 for non-violation
+    of flickr api usage limits
      */
     var pages = (() => {
-        var numPages = Math.ceil(this.state.response.length / 30);
+        var numPages = Math.ceil(this.state.response.length / cardsPerPage);
         var pages = []
         for (let i = 0; i < numPages; i++) {
             //console.log("page " + (i + 1) + " link")
@@ -131,9 +155,12 @@ class Dashboard extends Component {
         //console.log(pages)
         return pages
     })
-
+    var searchInput = this.state.search;
     var photoItems = this.state.activePageList.map(function(row) {
-        return (<Col xs="12" sm="6" md="6" >
+        if (searchInput.length != 0 && parseInt(searchInput) != row[1])
+            return;
+        return (
+        <Col xs="12" sm="6" md="6">
             <Card className="border-info">
                 <CardHeader>
                     {row[0]}
@@ -186,11 +213,20 @@ class Dashboard extends Component {
     })
     return (
       <div className="animated fadeIn">
+        <FormGroup row>
+                  <Col md="12">
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <Button type="button" color="primary"><i className="fa fa-search"></i> Search this page</Button>
+                      </InputGroupAddon>
+                      <Input type="text" id="searchInput" name="search" placeholder="Model Numbers" value={this.state.search} onChange={(event) => this.handleSearch(event)}/>
+
+                    </InputGroup>
+                  </Col>
+               </FormGroup>
         <Row>
             {photoItems}
-
         </Row>
-
           <Pagination>
               <PaginationItem>
                   <PaginationLink previous tag="button" onClick={() => this.handleClick(this.state.activePage - 1)}></PaginationLink>

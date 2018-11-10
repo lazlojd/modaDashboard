@@ -23,6 +23,7 @@ import { Row,
     FormText,
     Alert} from 'reactstrap'
 import { rgbToHex } from '@coreui/coreui/dist/js/coreui-utilities'
+import Dashboard from '../../Dashboard'
 
 
 class Colors extends Component {
@@ -178,6 +179,8 @@ class Colors extends Component {
     var cardWidth = {width: 1000} 
     return (
       <div>
+      <Row>
+      <Col>
         <Form onSubmit={() => this.handleSubmit()}>
             <Card>
                 <CardHeader>
@@ -264,7 +267,11 @@ class Colors extends Component {
             </Card>
 
         </Form>
-
+        </Col>
+        <Col>
+            <Dashboard></Dashboard>
+        </Col>
+        </Row>
 
       <Row>
         {successMessage()}

@@ -13,7 +13,8 @@ import { Badge,
     Label,
     Input,
     Button,
-    Alert} from 'reactstrap';
+    Alert,
+    Table} from 'reactstrap';
 import { AppSwitch } from '@coreui/react'
 
 class Cards extends Component {
@@ -28,9 +29,11 @@ class Cards extends Component {
         authorizedAccessKey: false,
         activateResponse: '',
         generateResponse: '',
+        designerInfo: {},
         generateSuccess: false,
         activateVisible: false,
-        generateVisible: false
+        generateVisible: false,
+        designerInfoVisible: false,
     };
   }
 
@@ -109,6 +112,17 @@ class Cards extends Component {
       // TODO
    }
 
+   handleShowDesignerInfo() {
+         if (!this.verifyAccessKey())
+            return;
+         this.callApi('/api/showinfo')
+            .then(res => {
+                console.log(res)
+                this.setState({designerInfo: res, designerInfoVisible: true})
+            })
+            .catch(err => console.log(err));
+   }
+
 
   render() {
     var activateMessage = (() => {
@@ -153,6 +167,57 @@ class Cards extends Component {
             onChange={(e) => this.handleActivation(e)}/>)
         }
 
+    })
+
+    var designerInfo = (() => {
+        var values = []
+        var choices = ''
+        for (var designer in this.state.designerInfo){
+            var current = this.state.designerInfo[designer].choices
+            for (let i = 0; i < current.length; i++) {
+                var models = 'Model ' + i + ': '
+                for (let j = 0; j < current[i].length; j++) {
+                    models += current[i][j] + " | "
+                }
+                choices += models.slice(0, -2) + "\n"
+            }
+            console.log(designer)
+            values.push(
+                <tr>
+                 <td>{designer}</td>
+                 <td>{this.state.designerInfo[designer].info[0]}</td>
+                 <td>{this.state.designerInfo[designer].info[1]}</td>
+                 <td>{this.state.designerInfo[designer].info[2]}</td>
+                 <td>{this.state.designerInfo[designer].info[3]}</td>
+                 <td>{choices}</td>
+                </tr>
+            )
+            choices = ''
+        }
+
+        return values
+    })
+
+    var designerInfoTable = (() => {
+        console.log(this.state.designerInfoVisible && this.state.authorizedAccessKey)
+        if (this.state.designerInfoVisible) {
+            return(<Card> <CardBody>
+                <Table responsive striped>
+                    <thead>
+                         <tr>
+                           <th>Code</th>
+                           <th>Name</th>
+                           <th>Year</th>
+                           <th>Email</th>
+                           <th>Number</th>
+                           <th>Choices (Ordered by choice number</th>
+                         </tr>
+                    </thead>
+                    <tbody>
+                        {designerInfo()}
+                    </tbody>
+                    </Table></CardBody> </Card>)
+        }
     })
 
     return (
@@ -236,6 +301,7 @@ class Cards extends Component {
                   <Button type="submit" size="sm" color="info" onClick = {() => this.handleShowDesignerInfo()}><i className="fa icon-eye"></i> Show</Button>
               </CardFooter>
           </Card>
+          {designerInfoTable()}
       </div>
     );
   }
