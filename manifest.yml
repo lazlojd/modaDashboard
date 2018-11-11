@@ -1,0 +1,7 @@
+---
+applications:
+- name: ModaDash
+  memory: 512M
+  instances: 1
+  buildpack: nodejs_buildpack
+  command: yarn dev
