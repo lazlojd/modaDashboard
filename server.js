@@ -22,10 +22,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // }
 
 var adminOpenDesignerChoiceSubmit = false;
-
+const fields = 8
 const backstageAdmin = "1234"
 const flickrLink = 'https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=a2cd5a26f44f57488b0856f13fd25911&user_id=144887162%40N03&format=json&nojsoncallback=1&auth_token=72157673338599837-ff24249e2f7bc088&api_sig=e9a60824f7f34906d3d0e3ac58a870e3'
-var numReceivedDesignerChoices = 0;
+var numReceivedDesignerChoices = 2;
 
 
 const numDesigners = 2;
@@ -33,15 +33,18 @@ const numDesigners = 2;
 var designerData = {
    car3cxm:
      { info: [ 'Caroline Mejia', '3', 'cxm@uchicago.edu', '630.401.5966' ],
-       choices: [['1', '2', '3'],  [ '4', '5', '6' ], [ '7', '8', '9' ] ]},
+       choices: [[1, 2, 3], [1, 1, 1], [7, 8, 9]],
+       models: []},
    kir3kel:
      { info: [ 'Kira Leadholm', '3', 'keleadholm@uchicago.edu', '16122372425' ],
-     choices: [['1', '2', '3'],  [ '4', '5', '6' ], [ '7', '8', '9' ] ]}}
+     choices: [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+     models: []}}
+
 
 
 var maxModels = 3;
 var activate = false;
-
+var dataFields = []
 
 function makePictureLink(photoObj) {
     if (photoObj !== "undefined") {
@@ -73,8 +76,8 @@ function formatData(dataObj) {
            // //console.log(thisPhoto)
             //console.log(makePictureLink(thisPhoto[0]))
 
-            // add link if there is none already
-            if (currentRow.length == 6) {
+            // add link only if there is none already
+            if (currentRow.length == fields) {
                 result = makePictureLink(thisPhoto[0])
                 dataObj.rows[i].push(result)
             }
@@ -89,11 +92,11 @@ function formatData(dataObj) {
 setInterval(function() {
    getData().then(function(result) {
       if (result !== "undefined") {
-          console.log("FORMATTING")
-          console.log(formatData(result))
+          //console.log("FORMATTING")
+          //console.log(formatData(result))
           data = formatData(result)
-          console.log("NEW---------")
-          console.log(data)
+          //console.log("NEW---------")
+          //console.log(data)
           //fs.writeFile('data.json', JSON.stringify(formatData(result)), (err) => {
 //            if (err) throw err;
 //            console.log("data written!")
@@ -110,8 +113,8 @@ app.get('/api/hello', (req, res) => {
     // Send data stored in local data.json file
     //let raw = fs.readFileSync('data.json').then(result => result).catch(err => console.log(err));
     //console.log(JSON.parse(raw))
-    console.log("preparing to send -----")
-    console.log(data)
+    //console.log("preparing to send -----")
+    //console.log(data)
     res.send(formatData(data))
 });
 
@@ -138,13 +141,14 @@ app.post('/api/selection', (req, res) => {
         res.send("100Error: unknown code - please check that your code is correct");
       } else {
         // Check if designer choices were already received
-        console.log(req.body)
-        console.log(designerData[req.body.code]["choices"])
+        //console.log(req.body)
+        //console.log(designerData[req.body.code]["choices"])
         if (designerData[req.body.code]["choices"].length == 0)
             numReceivedDesignerChoices =  numReceivedDesignerChoices + 1;
         console.log("num recieved: " + numReceivedDesignerChoices)
         designerData[req.body.code]["choices"] = req.body.choices
         maxModels = Math.max(maxModels, req.body.choices.length)
+        console.log("max: " + maxModels + " -- body len: " + req.body.choices.length)
         //console.log(designerData[req.body.code]["choices"])
 
         res.send("200Submission successful - your selections have been accepted");
@@ -168,13 +172,14 @@ app.get('/api/activate', (req, res) => {
 
 });
 
-app.get('/api/generate', (req, res) => {
+app.get('/api/generate', async function(req, res) {
     console.log("generate - num recieved: " + numReceivedDesignerChoices)
     if (numDesigners != numReceivedDesignerChoices)
-        res.send({message: "100Have not received submissions from all designers"})
+        res.send({status: 150, message: "Have not received submissions from all designers"})
     else {
         //console.log(designerData)
-        matchModelsAndDesigners()
+        await matchModelsAndDesigners()
+        res.send({status: 200, data: designerData})
     }
 
 });
@@ -183,11 +188,39 @@ app.get('/api/showinfo', (req, res) => {
         res.send(designerData);
     });
 
+app.get('/api/update', (req, res) => {
+        formatMatchingForSheets()
+        writeToSheet()
+    });
+
+
+function formatMatchingForSheets() {
+    let values = [];
+    for (var designer in designerData) {
+        var designerRow = designerData[designer].info.slice()
+        for (var i = 0; i < 4; i++) {
+            designerRow.splice(2, 0, '')
+        }
+        values.push(designerRow)
+        var chosenModels = designerData[designer].models
+        for (var i = 0; i < chosenModels.length; i++) {
+            const result = data.rows.filter((info) => info[1] == chosenModels[i])
+            values.push(result[0])
+        }
+    }
+    dataFields = values
+    //console.log(dataFields)
+
+}
+
 function designerIteration(keys, takenModels, reverse, selectionNo) {
+    console.log("DESIGNER ITERATION")
     if (!reverse) {
         console.log("forward")
         for (let i = 0; i < keys.length; i++) {
             let selection = designerData[keys[i]]["choices"][selectionNo]
+             if (typeof(selection) == "undefined")
+                            break
             var modelChosen = false
             for (let j = 0; j < selection.length; j++) {
                 if (takenModels.indexOf(selection[j]) == -1) {
@@ -206,7 +239,11 @@ function designerIteration(keys, takenModels, reverse, selectionNo) {
     } else {
     // reversed run through
         for (let i = keys.length - 1; i >= 0; i--) {
+            console.log(designerData[keys[i]])
+            console.log(designerData[keys[i]]["choices"])
             let selection = designerData[keys[i]]["choices"][selectionNo]
+            if (typeof(selection) == "undefined")
+                continue
             var modelChosen = false
             for (let j = 0; j < selection.length; j++) {
                 if (takenModels.indexOf(selection[j]) == -1) {
@@ -226,33 +263,28 @@ function designerIteration(keys, takenModels, reverse, selectionNo) {
 function matchModelsAndDesigners() {
     // Ensure designerData is in ranked order
     var keys = Object.keys(designerData)
+    console.log(designerData)
     console.log("keys " + keys + " len: " + keys.length)
     let takenModels = []
     // Run through model selections the maximum number of models chosen
+    var reverse = false;
+    console.log(maxModels)
     for (let i = 0; i < maxModels; i++) {
+        console.log("-------------- run through: " + i)
         console.log("taken: " + takenModels)
-        var reverse;
-        if (i % 2 == 0)
-            reverse = false
-        else
-            reverse = true
         takenModels = designerIteration(keys, takenModels, reverse, i)
+
+        reverse = !reverse
     }
+    console.log("--------------ITERATIONS COMPLETE-------------")
     console.log(designerData)
 
 }
 
 
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 const TOKEN_PATH = 'token.json';
 
-
-// Load client secrets from a local file.
-// fs.readFile('credentials.json', (err, content) => {
-//     if (err) return //console.log('Error loading client secret file:', err);
-//     // Authorize a client with credentials, then call the Google Sheets API.
-//     authorize(JSON.parse(content), getSpreadsheet);
-// });
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -286,24 +318,38 @@ function getNewToken(oAuth2Client, callback) {
         access_type: 'offline',
         scope: SCOPES,
     });
-    //console.log('Authorize this app by visiting this url:', authUrl);
+    console.log('Authorize this app by visiting this url:', authUrl);
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
     });
-    rl.question('Enter the code from that page here: ', (code) => {
-        rl.close();
-        oAuth2Client.getToken(code, (err, token) => {
-            if (err) return //console.error('Error while trying to retrieve access token', err);
-            oAuth2Client.setCredentials(token);
-            // Store the token to disk for later program executions
-            fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-                if (err) console.error(err);
-                //console.log('Token stored to', TOKEN_PATH);
+    var code = '4/kgCwe-tiaYOsPSUfjOET0WPYgHgGhxA0doMjPaKDgJ4REmlyTOvUz4o'
+
+            oAuth2Client.getToken(code, (err, token) => {
+                if (err) return //console.error('Error while trying to retrieve access token', err);
+                oAuth2Client.setCredentials(token);
+                // Store the token to disk for later program executions
+                fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+                    if (err) console.error(err);
+                    console.log('Token stored to', TOKEN_PATH);
+                });
+                callback(oAuth2Client);
             });
-            callback(oAuth2Client);
-        });
-    });
+//    rl.question('Enter the code from that page here: ', (code) => {
+//        rl.close();
+//        code = '4/kgCwe-tiaYOsPSUfjOET0WPYgHgGhxA0doMjPaKDgJ4REmlyTOvUz4o'
+//
+//        oAuth2Client.getToken(code, (err, token) => {
+//            if (err) return //console.error('Error while trying to retrieve access token', err);
+//            oAuth2Client.setCredentials(token);
+//            // Store the token to disk for later program executions
+//            fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+//                if (err) console.error(err);
+//                console.log('Token stored to', TOKEN_PATH);
+//            });
+//            callback(oAuth2Client);
+//        });
+//    });
 }
 
 //var spreadsheetInfo = {spreadsheetId: '', range: '', dataManip: false}
@@ -313,7 +359,7 @@ function getSpreadsheet(auth) {
     const sheets = google.sheets({version: 'v4', auth});
     sheets.spreadsheets.values.get({
         spreadsheetId: '1ZctufBfnKG_D1OCOxnJsG1uc99mace4wM95uz2x4EcY',
-        range: 'B1:G15',
+        range: 'B1:I15',
     }, (err, res) => {
         if (err) return //console.log('The API returned an error: ' + err);
         rows = res.data.values;
@@ -325,7 +371,7 @@ function getSpreadsheet(auth) {
             // Print columns A and E, which correspond to indices 0 and 4.
 
         } else {
-            //console.log('No data found.');
+            console.log('No data found.');
         }
     });
 }
@@ -347,13 +393,36 @@ function getDesignerSpreadsheet(auth) {
             // Print columns A and E, which correspond to indices 0 and 4.
 
         } else {
-            //console.log('No data found.');
+            console.log('No data found.');
         }
     });
 }
 
 
+function writeMatching(auth) {
+    var body = {values: dataFields}
+    const sheets = google.sheets({version: 'v4', auth});
+    sheets.spreadsheets.values.update({
+        spreadsheetId: '1y7wQ83w_HekSYmCiFftDaxICPW0fapGdoDOTh2sL5IA',
+        resource: body,
+        range: "A1:I200",
+        valueInputOption: 'RAW'
+    }, (err, response) => {
+        if (err) return console.log(err)
+        var result = response.result;
+        console.log(`${result.updatedCells} cells updated.`);
+    })
 
+}
+
+
+async function writeToSheet() {
+    await fs.readFile('credentials.json', (err, content) => {
+                if (err) return //console.log('Error loading client secret file:', err);
+                // Authorize a client with credentials, then call the Google Sheets API.
+                authorize(JSON.parse(content), writeMatching);
+            });
+}
 async function getDesignerInfo() {
     await fs.readFile('credentials.json', (err, content) => {
             if (err) return //console.log('Error loading client secret file:', err);
@@ -362,12 +431,14 @@ async function getDesignerInfo() {
         });
 }
 
+
+
 function formatDesignerData(data) {
     var obj = {}
     // form designers unique code and append to array of info
     data.map(function(entry) {
         var code = entry[0].slice(0, 3) + entry[1] + entry[2].slice(0, 3);
-        obj[code.toLowerCase()] = {info: entry, choices: []}
+        obj[code.toLowerCase()] = {info: entry, choices: [], models:[]}
     })
     //console.log(obj)
     return obj

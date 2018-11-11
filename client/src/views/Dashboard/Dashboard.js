@@ -170,7 +170,7 @@ class Dashboard extends Component {
                         <Col>
                             <CardImg
                                 top width="100%" height="100%"
-                                src={row[6]}
+                                src={row[8]}
                                 alt="Card image cap" />
                         </Col>
                         <Col>

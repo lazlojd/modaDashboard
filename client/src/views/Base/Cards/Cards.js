@@ -24,6 +24,8 @@ class Cards extends Component {
     this.handleGenerate = this.handleGenerate.bind(this)
     this.onDismiss = this.onDismiss.bind(this)
     this.verifyAccessKey = this.verifyAccessKey.bind(this)
+    this.handleDownload = this.handleDownload.bind(this)
+
     this.state = {
         accessKey: '',
         authorizedAccessKey: false,
@@ -34,6 +36,7 @@ class Cards extends Component {
         activateVisible: false,
         generateVisible: false,
         designerInfoVisible: false,
+        resultVisible: false,
     };
   }
 
@@ -84,6 +87,19 @@ class Cards extends Component {
         this.setState({authorizedAccessKey: true,  accessKey: value})
   }
 
+  handleDownload() {
+      if (!this.verifyAccessKey())
+                  return;
+
+      this.callApi('/api/update')
+              .then(res => {
+                  console.log(res.message)
+                  //this.setState({activateResponse: res.message, activateVisible: true})
+              })
+              .catch(err => console.log(err));
+
+  }
+
   handleActivation(event) {
         if (!this.verifyAccessKey())
             return;
@@ -100,9 +116,12 @@ class Cards extends Component {
        if (!this.verifyAccessKey())
              return;
        this.callApi('/api/generate').then(res => {
-           var code = res.message.slice(0, 3)
-           if (code != '200')
-                this.setState({generateResponse: res.message.replace(code, ""), generateSuccess: false, generateVisible: true})
+
+
+           if (res.status != 200)
+                this.setState({generateResponse: res.message, generateSuccess: false, generateVisible: true})
+            else
+                this.setState({designerInfo: res.data, resultVisible: true})
        })
        .catch(err => console.log(err));
   }
@@ -169,18 +188,28 @@ class Cards extends Component {
 
     })
 
-    var designerInfo = (() => {
+    var designerInfo = ((option) => {
         var values = []
         var choices = ''
         for (var designer in this.state.designerInfo){
-            var current = this.state.designerInfo[designer].choices
+
+            var current;
+            if (option == 0)
+                current = this.state.designerInfo[designer].models
+            else
+                current = this.state.designerInfo[designer].choices
+
             for (let i = 0; i < current.length; i++) {
-                var models = 'Model ' + i + ': '
-                for (let j = 0; j < current[i].length; j++) {
-                    models += current[i][j] + " | "
-                }
-                choices += models.slice(0, -2) + "\n"
+                if (option == 0) {
+                    choices += "Model " + (i + 1) + ": " + current[i] + "  |  "
+                } else {
+                    var models = 'Model ' + (i + 1) + ': '
+                    for (let j = 0; j < current[i].length; j++) {
+                        models += current[i][j] + " | "
+                    }
+                    choices += models.slice(0, -2) + "\n"}
             }
+            if (option == 0) choices.slice(0, -2)
             console.log(designer)
             values.push(
                 <tr>
@@ -198,9 +227,9 @@ class Cards extends Component {
         return values
     })
 
-    var designerInfoTable = (() => {
+    var designerInfoTable = ((option) => {
         console.log(this.state.designerInfoVisible && this.state.authorizedAccessKey)
-        if (this.state.designerInfoVisible) {
+        if (this.state.designerInfoVisible || (option == 0 && this.state.resultVisible)) {
             return(<Card> <CardBody>
                 <Table responsive striped>
                     <thead>
@@ -210,11 +239,11 @@ class Cards extends Component {
                            <th>Year</th>
                            <th>Email</th>
                            <th>Number</th>
-                           <th>Choices (Ordered by choice number</th>
+                           <th>Choices/Selections</th>
                          </tr>
                     </thead>
                     <tbody>
-                        {designerInfo()}
+                        {designerInfo(option)}
                     </tbody>
                     </Table></CardBody> </Card>)
         }
@@ -256,6 +285,7 @@ class Cards extends Component {
                 </CardFooter>
           </Card>
           {generateMessage()}
+          {designerInfoTable(0)}
           <Card className="card-accent-warning">
             <CardHeader>
               Spreadsheet ID's
@@ -283,11 +313,14 @@ class Cards extends Component {
               Download CSV
             </CardHeader>
               <CardBody>
-                Generate and download excel file of selected models, all their associated information,
-                and the designer that selected them
+                Update excel sheet with selected models, all their associated information,
+                and the designer that selected them.
+
+                Sheet can be found at this link <br></br>
+                <a href='https://docs.google.com/spreadsheets/d/1y7wQ83w_HekSYmCiFftDaxICPW0fapGdoDOTh2sL5IA/edit#gid=0'>https://docs.google.com/spreadsheets/d/1y7wQ83w_HekSYmCiFftDaxICPW0fapGdoDOTh2sL5IA/edit#gid=0</a>
               </CardBody>
               <CardFooter>
-                  <Button type="submit" size="sm" color="info" onClick = {() => this.handleGenerate()}><i className="fa icon-share"></i> Generate</Button>
+                  <Button type="submit" size="sm" color="info" onClick = {() => this.handleDownload()}><i className="fa icon-share"></i> Generate</Button>
               </CardFooter>
           </Card>
           <Card className="card-accent-secondary">
@@ -301,7 +334,7 @@ class Cards extends Component {
                   <Button type="submit" size="sm" color="info" onClick = {() => this.handleShowDesignerInfo()}><i className="fa icon-eye"></i> Show</Button>
               </CardFooter>
           </Card>
-          {designerInfoTable()}
+          {designerInfoTable(1)}
       </div>
     );
   }
