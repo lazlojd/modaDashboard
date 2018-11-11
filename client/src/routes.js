@@ -54,9 +54,9 @@ const User = Loadable({
 const routes = [
   { path: '/', exact: true, name: 'Home', component: DefaultLayout },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-  { path: '/theme/colors', name: 'Colors', component: Colors },
+  { path: '/theme/colors', name: 'Choices', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },
-  { path: '/base', exact: true, name: 'Base', component: Cards },
+  { path: '/base', exact: true, name: 'Admin', component: Cards },
   { path: '/buttons', exact: true, name: 'Buttons', component: Buttons },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },

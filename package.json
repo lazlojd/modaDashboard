@@ -24,7 +24,8 @@
     "react": "^16.6.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "simple-line-icons": "^2.4.1"
   },
   "devDependencies": {
     "concurrently": "^4.0.1"
