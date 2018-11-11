@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var adminOpenDesignerChoiceSubmit = false;
 const fields = 8
 const backstageAdmin = "1234"
-const flickrLink = 'https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=a2cd5a26f44f57488b0856f13fd25911&user_id=144887162%40N03&format=json&nojsoncallback=1&auth_token=72157673338599837-ff24249e2f7bc088&api_sig=e9a60824f7f34906d3d0e3ac58a870e3'
+const flickrLink = 'https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=f9c84f0d9600c8d8be1d5b6070c4e763&user_id=144887162%40N03&format=json&nojsoncallback=1&auth_token=72157700234291712-53c34f5bc18e9ece&api_sig=3f8f428b0186dab58e702665cc2fe5e7'
 var numReceivedDesignerChoices = 2;
 
 
