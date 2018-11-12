@@ -1,6 +1,21 @@
-# create-react-app React Project with Node Express Backend
+# MODA Model Call Dashboard
 
-> Example on using create-react-app with a Node Express Backend
+
+Simple dashboard to simplify the process of aggreggating photos and pairing them with model call candidate information and designer choices. In previous years, this part of the event has taken up 20 - 30 minutes to accomplish as more than 100+ photos would have to be upload all at once. Additionally, the process of model selection would take another 15 minutes as it was not automatic and required a call and response format. This app automates all of the processes above. Designers can instantly view model photos and all their associated information. Photos are posted to special flickr app and model data is submitted through google form and link to app with google sheets api. These data sources are polled every 15 seconds currently. During the actual event this will likely be lowered to 10 seconds
+
+
+App also comes with additional backstage functionality only accessible with correct admin code
+
+https://cryptic-dusk-89190.herokuapp.com/
+
+
+## Built With
+
+* [Reactjs](https://reactjs.org/)
+  * [CoreUI](https://coreui.io/react/) - free admin template this application started from
+* [Nodejs](https://nodejs.org/en/) - Javascript runtime environment, handles connections
+* [Expressjs](https://expressjs.com/) - Web framework used for app middleware
+* [Heroku](https://www.heroku.com/platform) - Cloud application platform
 
 ## Usage
 
@@ -24,32 +39,22 @@ To start the server and client at the same time (from the root of the project)
 yarn dev
 ```
 
-Running the production build on localhost. This will create a production build, then Node will serve the app on http://localhost:5000
+## Contributing
 
-```
-NODE_ENV=production yarn dev:server
-```
+Feel free to make any change or improvement you see fit. Provide ample detail of your changes at the bottom of the README for review. 
 
-## How this works
+## Versioning
 
-The key to use an Express backend with a project created with `create-react-app` is on using a **proxy**. We have a _proxy_ entry in `client/package.json`
+[SemVer](http://semver.org/) is used for versioning. 
 
-```
-"proxy": "http://localhost:5000/"
-```
+V 1.0
 
-This tells Webpack development server to proxy our API requests to our API server, given that our Express server is running on **localhost:5000**
+## Authors
 
-## Tutorial
+* **Leslie Jones-Dove** - *Initial work* - [Lazlojd](https://github.com/lazlojd)
 
-Visit my [blog post](https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0) entry for a detailed step-by-step guide.
 
-[Deployed app](https://cra-express.herokuapp.com/)
+## License
 
-## Giving Back
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-If you would like to support my work and the time I put in making tutorials, you can click the image below to get me a coffee. I would really appreciate it (but is not required).
-
-[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://www.buymeacoffee.com/esausilva)
-
--Esau
