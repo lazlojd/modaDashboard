@@ -1,11 +1,9 @@
 {
   "name": "example-create-react-app-express",
   "version": "1.0.0",
-  "description": "Example on using create-react-app with a Node Express Backend",
+  "description": "moda dashboard",
   "author": {
-    "name": "Esau Silva",
-    "email": "esausilva85@gmail.com",
-    "url": "https://esausilva.com"
+    "name": "Leslie Jones-Dove",
   },
   "license": "MIT",
   "scripts": {
