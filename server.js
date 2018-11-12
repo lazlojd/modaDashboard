@@ -12,33 +12,25 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// API calls
-
-
-
-// var data = {
-//     rows: [],
-//     photos: {}
-// }
 
 var adminOpenDesignerChoiceSubmit = false;
 const fields = 8
 const backstageAdmin = "1234"
 const flickrLink = 'https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=f9c84f0d9600c8d8be1d5b6070c4e763&user_id=144887162%40N03&format=json&nojsoncallback=1&auth_token=72157700234291712-53c34f5bc18e9ece&api_sig=3f8f428b0186dab58e702665cc2fe5e7'
-var numReceivedDesignerChoices = 2;
+var numReceivedDesignerChoices = 0;
 
 
-const numDesigners = 2;
-//var designerData;
-var designerData = {
-   car3cxm:
-     { info: [ 'Caroline Mejia', '3', 'cxm@uchicago.edu', '630.401.5966' ],
-       choices: [[1, 2, 3], [1, 1, 1], [7, 8, 9]],
-       models: []},
-   kir3kel:
-     { info: [ 'Kira Leadholm', '3', 'keleadholm@uchicago.edu', '16122372425' ],
-     choices: [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
-     models: []}}
+const numDesigners = 20;
+var designerData;
+//var designerData = {
+//   car3cxm:
+//     { info: [ 'Caroline Mejia', '3', 'cxm@uchicago.edu', '630.401.5966' ],
+//       choices: [[1, 2, 3], [1, 1, 1], [7, 8, 9]],
+//       models: []},
+//   kir3kel:
+//     { info: [ 'Kira Leadholm', '3', 'keleadholm@uchicago.edu', '16122372425' ],
+//     choices: [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+//     models: []}}
 
 
 
@@ -92,15 +84,7 @@ function formatData(dataObj) {
 setInterval(function() {
    getData().then(function(result) {
       if (result !== "undefined") {
-          //console.log("FORMATTING")
-          //console.log(formatData(result))
           data = formatData(result)
-          //console.log("NEW---------")
-          //console.log(data)
-          //fs.writeFile('data.json', JSON.stringify(formatData(result)), (err) => {
-//            if (err) throw err;
-//            console.log("data written!")
-//          })
        }
    })
 
@@ -109,48 +93,31 @@ setInterval(function() {
 
 
 app.get('/api/hello', (req, res) => {
-
-    // Send data stored in local data.json file
-    //let raw = fs.readFileSync('data.json').then(result => result).catch(err => console.log(err));
-    //console.log(JSON.parse(raw))
-    //console.log("preparing to send -----")
-    //console.log(data)
     res.send(formatData(data))
 });
 
 
 app.post('/api/codeVerification', (req, res) => {
     var status;
-    //console.log(backstageAdmin + " -- " + req.body.key)
     if (backstageAdmin == req.body.key)
         status = 200
     else
         status = 100
-    //console.log("sending status " + status)
     res.send({status: status})
 })
 
 app.post('/api/selection', (req, res) => {
 
   if (activate) {
-      //console.log(req.body);
-      //console.log(typeof(designerData[req.body.code]))
       if (typeof(designerData[req.body.code]) == "undefined"){
-        //console.log("sending error!")
-
         res.send("100Error: unknown code - please check that your code is correct");
       } else {
         // Check if designer choices were already received
-        //console.log(req.body)
-        //console.log(designerData[req.body.code]["choices"])
         if (designerData[req.body.code]["choices"].length == 0)
             numReceivedDesignerChoices =  numReceivedDesignerChoices + 1;
-        console.log("num recieved: " + numReceivedDesignerChoices)
+
         designerData[req.body.code]["choices"] = req.body.choices
         maxModels = Math.max(maxModels, req.body.choices.length)
-        console.log("max: " + maxModels + " -- body len: " + req.body.choices.length)
-        //console.log(designerData[req.body.code]["choices"])
-
         res.send("200Submission successful - your selections have been accepted");
       }
   } else {
@@ -161,7 +128,6 @@ app.post('/api/selection', (req, res) => {
 });
 
 app.get('/api/activate', (req, res) => {
-    //console.log("entered!")
     activate = !activate
     var message;
     if (activate)
@@ -177,7 +143,6 @@ app.get('/api/generate', async function(req, res) {
     if (numDesigners != numReceivedDesignerChoices)
         res.send({status: 150, message: "Have not received submissions from all designers"})
     else {
-        //console.log(designerData)
         await matchModelsAndDesigners()
         res.send({status: 200, data: designerData})
     }
@@ -209,8 +174,6 @@ function formatMatchingForSheets() {
         }
     }
     dataFields = values
-    //console.log(dataFields)
-
 }
 
 function designerIteration(keys, takenModels, reverse, selectionNo) {
@@ -335,21 +298,6 @@ function getNewToken(oAuth2Client, callback) {
                 });
                 callback(oAuth2Client);
             });
-//    rl.question('Enter the code from that page here: ', (code) => {
-//        rl.close();
-//        code = '4/kgCwe-tiaYOsPSUfjOET0WPYgHgGhxA0doMjPaKDgJ4REmlyTOvUz4o'
-//
-//        oAuth2Client.getToken(code, (err, token) => {
-//            if (err) return //console.error('Error while trying to retrieve access token', err);
-//            oAuth2Client.setCredentials(token);
-//            // Store the token to disk for later program executions
-//            fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-//                if (err) console.error(err);
-//                console.log('Token stored to', TOKEN_PATH);
-//            });
-//            callback(oAuth2Client);
-//        });
-//    });
 }
 
 //var spreadsheetInfo = {spreadsheetId: '', range: '', dataManip: false}
@@ -359,17 +307,13 @@ function getSpreadsheet(auth) {
     const sheets = google.sheets({version: 'v4', auth});
     sheets.spreadsheets.values.get({
         spreadsheetId: '1ZctufBfnKG_D1OCOxnJsG1uc99mace4wM95uz2x4EcY',
-        range: 'B1:I15',
+        range: 'B1:I200',
     }, (err, res) => {
         if (err) return //console.log('The API returned an error: ' + err);
         rows = res.data.values;
         if (rows.length) {
             rows.splice(0, 1);
             raw.rows = rows
-            ////console.log("printing first row")
-            //console.log(rows[1]);
-            // Print columns A and E, which correspond to indices 0 and 4.
-
         } else {
             console.log('No data found.');
         }
@@ -388,9 +332,6 @@ function getDesignerSpreadsheet(auth) {
         if (result.length) {
       
             designerData = formatDesignerData(result)
-            ////console.log("printing first row")
-            ////console.log(designerData);
-            // Print columns A and E, which correspond to indices 0 and 4.
 
         } else {
             console.log('No data found.');
@@ -447,18 +388,12 @@ function formatDesignerData(data) {
 
 
 async function getData () {
-    // Check if data object is open
-    //console.log("entering data block: " + data.rows.length)
-
         // get spreadsheet data first
-        //console.log("getting spreadsheet")
         await fs.readFile('credentials.json', (err, content) => {
             if (err) return //console.log('Error loading client secret file:', err);
             // Authorize a client with credentials, then call the Google Sheets API.
             authorize(JSON.parse(content), getSpreadsheet);
         });
-        //console.log("spreadsheet block done: " + data.rows[0])
-        //console.log("getting photos")
         // Get photos next
        await https.get(flickrLink,
             (resp) => {
@@ -469,20 +404,12 @@ async function getData () {
             resp.on('data', (chunk) => {
                 photoData += chunk;
             });
-
             // The whole response has been received. Print out the result.
             resp.on('end', () => {
                 raw.photos = JSON.parse(photoData)["photos"]
-                //console.log("have photo data" + photoData)
-
             });
-            //console.log(data.rows[0])
         }).on("error", (err) => {
-            //console.log("Error: " + err.message);
         });
-
-      // console.log(data)
-
        return raw;
 
 }
@@ -499,7 +426,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-//getDesignerInfo()
+getDesignerInfo()
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
