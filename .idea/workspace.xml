@@ -30,7 +30,7 @@
         <counts>
           <entry key="HTML" value="1" />
           <entry key="JSON" value="6" />
-          <entry key="JavaScript" value="18244" />
+          <entry key="JavaScript" value="18295" />
           <entry key="PLAIN_TEXT" value="12" />
         </counts>
       </usages-collector>
@@ -41,7 +41,7 @@
           <entry key="HTML" value="1" />
           <entry key="Image" value="1" />
           <entry key="JSON" value="6" />
-          <entry key="JavaScript" value="28" />
+          <entry key="JavaScript" value="29" />
           <entry key="PLAIN_TEXT" value="4" />
         </counts>
       </usages-collector>
@@ -49,7 +49,7 @@
         <counts>
           <entry key="html" value="1" />
           <entry key="ico" value="1" />
-          <entry key="js" value="28" />
+          <entry key="js" value="29" />
           <entry key="json" value="6" />
           <entry key="lock" value="2" />
           <entry key="md" value="1" />
@@ -59,7 +59,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="1" />
-          <entry key="js" value="18244" />
+          <entry key="js" value="18295" />
           <entry key="json" value="6" />
           <entry key="scss" value="12" />
         </counts>
@@ -77,11 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/App.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="2" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
+            <state relative-caret-position="165">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
         </entry>
@@ -98,6 +98,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/App.test.js">
           <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="388">
+              <caret line="428" lean-forward="true" selection-start-line="428" selection-end-line="428" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -162,10 +171,10 @@
         <option value="$PROJECT_DIR$/client/src/views/Theme/Colors/Colors.js" />
         <option value="$PROJECT_DIR$/client/src/views/Dashboard/Dashboard.js" />
         <option value="$PROJECT_DIR$/client/src/views/Base/Cards/Cards.js" />
-        <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/client/src/routes.js" />
         <option value="$PROJECT_DIR$/client/public/index.html" />
         <option value="$PROJECT_DIR$/client/src/App.scss" />
+        <option value="$PROJECT_DIR$/server.js" />
       </list>
     </option>
   </component>
@@ -2850,7 +2859,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541981694944" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541988134137" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -2885,7 +2894,7 @@
     <option name="totallyTimeSpent" value="15941000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="895" y="23" width="785" height="976" extended-state="0" />
+    <frame x="895" y="23" width="785" height="976" extended-state="1" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31359354" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -3060,13 +3069,6 @@
     <entry file="file://$PROJECT_DIR$/client/node_modules/bootstrap/scss/_functions.scss">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="35" column="23" lean-forward="true" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/scss/style.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -3150,8 +3152,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/App.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="2" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
+        <state relative-caret-position="165">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="428" lean-forward="true" selection-start-line="428" selection-end-line="428" />
         </state>
       </provider>
     </entry>
