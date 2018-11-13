@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var adminOpenDesignerChoiceSubmit = false;
 const fields = 8
 const backstageAdmin = "1234"
-const flickrLink = 'https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=3701b8c31cec9ce00befd12653030ca5&user_id=144887162%40N03&format=json&nojsoncallback=1&auth_token=72157701978302981-da583661f39c7945&api_sig=871f6ff96ea91216f0b1f03862039c1a'
+const flickrLink = 'https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=073238bec9052c2f344dcbe2908fa103&user_id=144887162%40N03&format=json&nojsoncallback=1&auth_token=72157675582633848-5d68bb0897b60ad1&api_sig=3387f07e749123c748d4b9fbf84aca70'
 var numReceivedDesignerChoices = 0;
 
 
@@ -306,7 +306,7 @@ function getSpreadsheet(auth) {
     ////console.log("get spreadsheet callback")
     const sheets = google.sheets({version: 'v4', auth});
     sheets.spreadsheets.values.get({
-        spreadsheetId: '1ZctufBfnKG_D1OCOxnJsG1uc99mace4wM95uz2x4EcY',
+        spreadsheetId: '15l3ewbmyHhmg6kx_jQlZtsAhi8OGEw3FEmhe-9Hs9Uk',
         range: 'B1:I200',
     }, (err, res) => {
         if (err) return //console.log('The API returned an error: ' + err);
