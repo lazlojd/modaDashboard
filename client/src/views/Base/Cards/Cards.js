@@ -76,18 +76,20 @@ class Cards extends Component {
 
   async handleCode(event) {
     let value = event.target.value
-    const response = await fetch('/api/codeVerification', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({key: value}),
-        });
-    const body = await response.json();
-    if (body.status != 200)
-        this.setState({authorizedAccessKey: false, accessKey: value})
-    else
-        this.setState({authorizedAccessKey: true,  accessKey: value})
+    if (value.length >= 10) {
+        const response = await fetch('/api/codeVerification', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({key: value}),
+            });
+        const body = await response.json();
+        if (body.status != 200)
+            this.setState({authorizedAccessKey: false, accessKey: value})
+        else
+            this.setState({authorizedAccessKey: true,  accessKey: value})
+   }
   }
 
   handleDownload() {
