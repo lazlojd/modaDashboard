@@ -31,14 +31,9 @@ class DefaultHeader extends Component {
           <NavItem className="px-3">
             <NavLink href="/">Dashboard</NavLink>
           </NavItem>
-          <NavItem className="px-3">
-            <NavLink href="#/users">Users</NavLink>
-          </NavItem>
         </Nav>
         <Nav className="ml-auto mr-5" navbar>
-          <NavItem className="d-md-down-none">
-            <NavLink href="#">Current User</NavLink>
-          </NavItem>
+
         </Nav>
         {/*<AppAsideToggler className="d-md-down-none" />*/}
         {/*<AppAsideToggler className="d-lg-none" mobile />*/}

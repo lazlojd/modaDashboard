@@ -176,7 +176,7 @@ class Dashboard extends Component {
                            <Row className="mb-5">
                                <Col>
                                    <CardSubtitle> Number:</CardSubtitle>
-                                  <h3>{row[1]}</h3>
+                                  <h1>{row[1]}</h1>
                                </Col>
 
                            </Row>
@@ -188,7 +188,7 @@ class Dashboard extends Component {
                           </Row>
                             <Row className="mb-3">
                                 <Col>
-                                    <CardSubtitle> Height</CardSubtitle>
+                                    <CardSubtitle> Height: </CardSubtitle>
                                     <div>{row[3]}</div>
                                 </Col>
                             </Row>

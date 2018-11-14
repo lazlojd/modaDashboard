@@ -3,12 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="54a7f4d7-ca43-40de-95a2-b3a6e7b6fd16" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/assets/img/brand/logo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/assets/img/brand/moda-logo.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/containers/DefaultLayout/DefaultHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/containers/DefaultLayout/DefaultHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/views/Base/Cards/Cards.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Base/Cards/Cards.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/views/Dashboard/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Dashboard/Dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,7 +29,7 @@
         <counts>
           <entry key="HTML" value="1" />
           <entry key="JSON" value="6" />
-          <entry key="JavaScript" value="19059" />
+          <entry key="JavaScript" value="19064" />
           <entry key="PLAIN_TEXT" value="12" />
         </counts>
       </usages-collector>
@@ -62,7 +58,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="1" />
-          <entry key="js" value="19059" />
+          <entry key="js" value="19064" />
           <entry key="json" value="6" />
           <entry key="scss" value="12" />
         </counts>
@@ -83,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/views/Dashboard/Dashboard.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-297">
-              <caret line="101" column="14" selection-start-line="101" selection-start-column="14" selection-end-line="101" selection-end-column="14" />
+            <state relative-caret-position="2001">
+              <caret line="186" column="32" lean-forward="true" selection-start-line="186" selection-start-column="32" selection-end-line="186" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -97,8 +93,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+            <state relative-caret-position="-356">
+              <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -106,8 +102,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/containers/DefaultLayout/DefaultHeader.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+            <state relative-caret-position="256">
+              <caret line="33" column="14" lean-forward="true" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -183,10 +179,10 @@
         <option value="$PROJECT_DIR$/client/public/index.html" />
         <option value="$PROJECT_DIR$/client/src/App.scss" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/client/src/containers/DefaultLayout/DefaultHeader.js" />
-        <option value="$PROJECT_DIR$/client/src/views/Dashboard/Dashboard.js" />
         <option value="$PROJECT_DIR$/client/src/views/Base/Cards/Cards.js" />
         <option value="$PROJECT_DIR$/server.js" />
+        <option value="$PROJECT_DIR$/client/src/containers/DefaultLayout/DefaultHeader.js" />
+        <option value="$PROJECT_DIR$/client/src/views/Dashboard/Dashboard.js" />
       </list>
     </option>
   </component>
@@ -2663,7 +2659,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="895" />
-    <option name="y" value="23" />
+    <option name="y" value="24" />
     <option name="width" value="785" />
     <option name="height" value="976" />
   </component>
@@ -2955,7 +2951,8 @@
     <option name="totallyTimeSpent" value="15941000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="895" y="23" width="785" height="976" extended-state="0" />
+    <frame x="895" y="24" width="785" height="976" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31359354" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -3202,20 +3199,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/containers/DefaultLayout/DefaultHeader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/views/Dashboard/Dashboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-297">
-          <caret line="101" column="14" selection-start-line="101" selection-start-column="14" selection-end-line="101" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/views/Base/Cards/Cards.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="575">
@@ -3223,10 +3206,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/containers/DefaultLayout/DefaultHeader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="33" column="14" lean-forward="true" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/views/Dashboard/Dashboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2001">
+          <caret line="186" column="32" lean-forward="true" selection-start-line="186" selection-start-column="32" selection-end-line="186" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        <state relative-caret-position="-356">
+          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
         </state>
       </provider>
     </entry>
