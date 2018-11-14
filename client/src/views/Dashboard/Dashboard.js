@@ -62,8 +62,7 @@ class Dashboard extends Component {
   }
 
   handleSearch(event) {
-    console.log("Entered handleSearch")
-    console.log("value: " + event.target.value.trim())
+
     this.setState({search: event.target.value.trim()})
   }
   handleClick(index) {
@@ -100,7 +99,7 @@ class Dashboard extends Component {
 
         // Fetch fresh data from backend every 15 seconds
         setInterval(() => {
-            console.log("fetching ")
+            //console.log("fetching ")
             var offset = cardsPerPage * (this.state.activePage - 1);
             var response = this.callApi()
             .then(res => {this.setState({response: res.rows, activePageList: res.rows.slice(offset, offset + cardsPerPage)})}).catch(err => console.log(err));

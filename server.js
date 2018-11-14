@@ -15,8 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var adminOpenDesignerChoiceSubmit = false;
 const fields = 8
-const backstageAdmin = "1234"
-const flickrLink = 'https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=073238bec9052c2f344dcbe2908fa103&user_id=144887162%40N03&format=json&nojsoncallback=1&auth_token=72157675582633848-5d68bb0897b60ad1&api_sig=3387f07e749123c748d4b9fbf84aca70'
+const backstageAdmin = "back5Stage"
+var flickrLink
 var numReceivedDesignerChoices = 0;
 
 
@@ -158,6 +158,14 @@ app.get('/api/update', (req, res) => {
         writeToSheet()
     });
 
+app.post('/api/flickr', (req, res) => {
+  console.log("RECIEVING flickr link------------")
+  console.log(req.body)
+  flickrLink = req.body.url;
+  console.log("------------SET flickr link------------")
+  if (flickrLink == req.body.url) res.send({status: 200})
+
+});
 
 function formatMatchingForSheets() {
     let values = [];

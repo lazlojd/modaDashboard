@@ -25,6 +25,8 @@ class Cards extends Component {
     this.onDismiss = this.onDismiss.bind(this)
     this.verifyAccessKey = this.verifyAccessKey.bind(this)
     this.handleDownload = this.handleDownload.bind(this)
+    this.handleURL = this.handleURL.bind(this)
+    this.updateFlickrURL = this.updateFlickrURL.bind(this)
 
     this.state = {
         accessKey: '',
@@ -37,6 +39,7 @@ class Cards extends Component {
         generateVisible: false,
         designerInfoVisible: false,
         resultVisible: false,
+        flickr: ''
     };
   }
 
@@ -129,6 +132,25 @@ class Cards extends Component {
   // Not necessary for version 1.0
   handleIds(event) {
       // TODO
+   }
+
+   updateFlickrURL(event) {
+    //console.log(event.target.value)
+    this.setState({flickr: event.target.value})
+   }
+
+   async handleURL(event) {
+    if (!this.verifyAccessKey())
+                 return;
+    //console.log(this.state.flickr)
+    const response = await fetch('/api/flickr', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({url: this.state.flickr}),
+          });
+
    }
 
    handleShowDesignerInfo() {
@@ -288,29 +310,29 @@ class Cards extends Component {
           {designerInfoTable(0)}
           <Card className="card-accent-warning">
             <CardHeader>
-              Spreadsheet ID's
+              Spreadsheet ID/Flickr URL
             </CardHeader>
             <CardBody>
               Enter the spreadsheet ID's of the google sheets with designer info and the google sheet
-              with the model call form information -- NOT implemented in this version
+              with the model call form information -- NOT implemented in this version. Update Flickr url
             </CardBody>
             <CardFooter>
              <Form action="" inline>
                   <FormGroup className="pr-1">
                     <Label htmlFor="id1" className="pr-1">Model Form</Label>
-                    <Input type="text" id="id1" required />
+                    <Input type="text" id="id1"/>
                   </FormGroup>
                   <FormGroup className="pr-1 text-right">
-                    <Label htmlFor="id2" className="pr-1">Designer Form</Label>
-                    <Input type="text" id="id2" required />
+                    <Label htmlFor="id2" className="pr-1">Flickr Url</Label>
+                    <Input type="text" id="id2" required value={this.state.flickr} onChange = {(event) => this.updateFlickrURL(event)}/>
                   </FormGroup>
-                  <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                  <Button type="submit" size="sm" color="primary"  onClick = {() => this.handleURL()}><i className="fa fa-dot-circle-o"></i> Submit</Button>
               </Form>
             </CardFooter>
           </Card>
           <Card className="card-accent-info">
             <CardHeader>
-              Download CSV
+              View result
             </CardHeader>
               <CardBody>
                 Update excel sheet with selected models, all their associated information,
