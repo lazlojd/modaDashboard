@@ -118,6 +118,7 @@ app.post('/api/selection', (req, res) => {
 
         designerData[req.body.code]["choices"] = req.body.choices
         maxModels = Math.max(maxModels, req.body.choices.length)
+        console.log(designerData)
         res.send("200Submission successful - your selections have been accepted");
       }
   } else {
@@ -315,7 +316,7 @@ function getSpreadsheet(auth) {
     const sheets = google.sheets({version: 'v4', auth});
     sheets.spreadsheets.values.get({
         spreadsheetId: '15l3ewbmyHhmg6kx_jQlZtsAhi8OGEw3FEmhe-9Hs9Uk',
-        range: 'B1:I200',
+        range: 'B1:I300',
     }, (err, res) => {
         if (err) return //console.log('The API returned an error: ' + err);
         rows = res.data.values;
