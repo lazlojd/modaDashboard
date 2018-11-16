@@ -20,12 +20,12 @@ var flickrLink
 var numReceivedDesignerChoices = 0;
 
 
-const numDesigners = 20;
+const numDesigners = 21;
 var designerData;
 //var designerData = {
 //   car3cxm:
 //     { info: [ 'Caroline Mejia', '3', 'cxm@uchicago.edu', '630.401.5966' ],
-//       choices: [[1, 2, 3], [1, 1, 1], [7, 8, 9]],
+//       choices: [[1, 2, 3], [1, 1,  [7, 8, 9]],
 //       models: []},
 //   kir3kel:
 //     { info: [ 'Kira Leadholm', '3', 'keleadholm@uchicago.edu', '16122372425' ],
@@ -140,7 +140,7 @@ app.get('/api/activate', (req, res) => {
 
 app.get('/api/generate', async function(req, res) {
     console.log("generate - num recieved: " + numReceivedDesignerChoices)
-    if (numDesigners != numReceivedDesignerChoices)
+    if (numDesigners >= numReceivedDesignerChoices - 3)
         res.send({status: 150, message: "Have not received submissions from all designers"})
     else {
         await matchModelsAndDesigners()
@@ -333,7 +333,7 @@ function getDesignerSpreadsheet(auth) {
     const sheets = google.sheets({version: 'v4', auth});
     sheets.spreadsheets.values.get({
         spreadsheetId: '1ujcr9u41pr7uDHe9SyiequN0lw8ra9PaT6QCmDTVeT8',
-        range: 'A2:D25',
+        range: 'A1:D25',
     }, (err, res) => {
         if (err) return //console.log('The API returned an error: ' + err);
         let result = res.data.values;
