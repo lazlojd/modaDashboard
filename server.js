@@ -17,7 +17,7 @@ var adminOpenDesignerChoiceSubmit = false;
 const fields = 8
 const backstageAdmin = "back5Stage"
 var flickrLink
-var numReceivedDesignerChoices = 0;
+var numReceivedDesignerChoices = 21;
 
 
 const numDesigners = 21;
