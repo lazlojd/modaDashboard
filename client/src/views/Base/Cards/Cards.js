@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { Badge,
+import { 
     Card,
     CardBody,
     CardFooter,
     CardHeader,
-    Col,
-    Row,
-    Collapse,
-    Fade,
     Form,
     FormGroup,
     Label,
@@ -54,7 +50,7 @@ class Cards extends Component {
 
   verifyAccessKey() {
     var verified = true;
-    if (this.state.accessKey.length == 0) {
+    if (this.state.accessKey.length === 0) {
         alert("Error - no access key provided")
         verified = false
     }
@@ -66,9 +62,9 @@ class Cards extends Component {
   }
 
   onDismiss(field) {
-    if (field == 0)
+    if (field === 0)
        this.setState({activateVisible: false});
-    else if (field == 1)
+    else if (field === 1)
        this.setState({generateVisible: false});
   }
 

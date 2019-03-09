@@ -1,0 +1,6 @@
+{
+  "name": "VideoCard",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./VideoCard.js"
+}

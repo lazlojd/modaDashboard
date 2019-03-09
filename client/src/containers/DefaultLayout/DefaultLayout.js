@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Container } from 'reactstrap';
+import { Container, Nav, NavItem } from 'reactstrap';
 
 import {
   AppAside,
@@ -20,25 +20,20 @@ import navigation from '../../_nav';
 import routes from '../../routes';
 import DefaultAside from './DefaultAside';
 import DefaultFooter from './DefaultFooter';
-import DefaultHeader from './DefaultHeader';
+import Header from './AppHeader';
+import HeaderImage from './AppHeaderImage'
+
+
 
 class DefaultLayout extends Component {
   render() {
     return (
       <div className="app">
-        <AppHeader fixed>
-          <DefaultHeader />
-        </AppHeader>
-        <div className="app-body">
-          <AppSidebar fixed display="lg">
-            <AppSidebarHeader />
-            <AppSidebarForm />
-            <AppSidebarNav navConfig={navigation} {...this.props} />
-            <AppSidebarFooter />
-            <AppSidebarMinimizer />
-          </AppSidebar>
-          <main className="main">
-            <AppBreadcrumb appRoutes={routes}/>
+        <Header></Header>
+        <HeaderImage></HeaderImage>
+        <div className="app-body NoMargin">
+          <main className="main white">
+          <AppBreadcrumb appRoutes={routes}/>
             <Container fluid>
               <Switch>
                 {routes.map((route, idx) => {
@@ -52,13 +47,9 @@ class DefaultLayout extends Component {
               </Switch>
             </Container>
           </main>
-          <AppAside fixed>
-            <DefaultAside />
-          </AppAside>
+        
         </div>
-        <AppFooter>
-          <DefaultFooter />
-        </AppFooter>
+       {/*Future footer goes here*/}
       </div>
     );
   }

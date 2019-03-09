@@ -1,28 +1,20 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import { Row,
     Col,
-    PaginationItem,
-    PaginationLink,
-    Pagination,
     Card,
     CardHeader,
     CardBody,
     CardFooter,
     Button,
     Table,
-    Badge,
     Input,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
     Form,
     FormGroup,
     Label,
     FormText,
     Alert} from 'reactstrap'
-import { rgbToHex } from '@coreui/coreui/dist/js/coreui-utilities'
+
 import Dashboard from '../../Dashboard'
 
 
